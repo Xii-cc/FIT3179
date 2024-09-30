@@ -1,0 +1,45 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Top 10 Country with the Most Airports",
+    "data": {
+        "url": "../Dataset/airports.csv"
+    },
+    "transform": [
+        {
+            "aggregate": [{"op": "count", "as": "Number of Airports"}],
+            "groupby": ["Country"]
+        },
+        {
+            "window": [{"op": "rank", "as": "rank"}],
+            "sort": [{"field": "Number of Airports", "order": "descending"}]
+        },
+        {
+            "filter": "datum.rank <= 10"
+        }
+    ],
+    "encoding": {
+        "y": {
+            "field": "Country",
+            "type": "nominal",
+            "sort": {"field": "Number of Airports", "order": "descending"},
+            "axis": {"title": "Country"}
+        },
+        "x": {
+            "field": "Number of Airports",
+            "type": "quantitative",
+            "axis": {"title": "Number of Airports"}
+        }
+    },
+    "layer": [
+        {
+            "mark": "bar",
+            "encoding": {
+                "tooltip": [
+                    {"field": "Country", "type": "nominal"},
+                    {"field": "Number of Airports", "type": "quantitative"}
+                ]
+            }
+        }
+    ]
+
+}

@@ -1,0 +1,49 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Top 10 Highest Airports by Altitude",
+    "data": {
+      "url": "../Dataset/airports.csv"
+    },
+    "transform": [
+      {
+        "calculate": "toNumber(datum.Altitude)",
+        "as": "Altitude"
+      },
+      {
+        "filter": "datum.Country == 'Malaysia'"
+      },
+      {
+        "window": [{"op": "rank", "as": "rank"}],
+        "sort": [{"field": "Altitude", "order": "descending"}]
+      },
+      {
+        "filter": "datum.rank <= 10"
+      }
+    ],
+    "encoding": {
+      "y": {
+        "field": "Name",
+        "type": "nominal",
+        "sort": {"field": "Altitude", "order": "descending"},
+        "axis": {"title": "Airport Name"}
+      },
+      "x": {
+        "field": "Altitude",
+        "type": "quantitative",
+        "axis": {"title": "Altitude (ft)"}
+      }
+    },
+    "layer": [
+      {
+        "mark": "bar",
+        "encoding": {
+            "tooltip": [
+                {"field": "Name", "type": "nominal"},
+                {"field": "City", "type": "nominal"},
+                {"field": "Altitude", "type": "quantitative"}
+            ]
+        }
+      }
+    ]
+  }
+  

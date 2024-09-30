@@ -1,0 +1,49 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 1200,
+    "height": 600,
+    "title": "Radial Plot Showing the Malaysian Airports",
+    "data": {
+        "url": "../Dataset/my_airports_cleaned.csv"
+    },
+    "transform": [
+        {
+            "aggregate": [
+                {"op": "count", "as": "count"}
+            ],
+            "groupby": ["type"]
+        },
+        {
+            "calculate": "datum.type + ' (' + datum.count + ')'",
+            "as": "type_count"
+        }
+    ],
+    "layer": [
+        {
+            "mark": {
+                "type": "arc",
+                "innerRadius": 20,
+                "stroke": "#fff"
+            },
+            "encoding": {
+                "theta": {"field": "count", "type": "quantitative", "stack": true},
+                "radius": {"field": "count", "scale": {"type": "sqrt", "zero": true, "rangeMin": 20}},
+                "color": {"field": "type", "type": "nominal", "legend": {"title": "Airport Type", "orient": "top"}},
+                "order": {"field": "count", "type": "quantitative", "sort": "descending"}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "radiusOffset": 10
+            },
+            "encoding": {
+                "text": {"field": "type_count", "type": "nominal"},
+                "theta": {"field": "count", "type": "quantitative", "stack": true},
+                "radius": {"value": 120},
+                "color": {"value": "black"},
+                "order": {"field": "count", "type": "quantitative", "sort": "descending"}
+            }
+        }
+    ]
+}

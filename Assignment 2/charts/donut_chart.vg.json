@@ -1,0 +1,43 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 1200,
+    "height": 600,
+    "title": "Radial Plot Showing the Number of Different Types of Airports in Malaysia",
+    "data": {
+        "url": "../Dataset/my_airports_cleaned.csv"
+    },
+    "transform": [
+        {
+            "aggregate": [{"op": "count", "as": "count"}],
+            "groupby": ["type"]
+        }
+    ],
+    "layer": [
+        {
+            "mark": {
+                "type": "arc",
+                "innerRadius": 20,
+                "stroke": "#fff",
+                "tooltip": true
+            },
+            "encoding": {
+                "theta": {"field": "count", "type": "quantitative", "stack": true, "sort": {"field": "count", "order": "descending"}},
+                "color": {"field": "type", "type": "nominal", "legend": {"title": "Airport Type"}},
+                "order": {"field": "count", "type": "quantitative", "sort": "descending"}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "radiusOffset": 10
+            },
+            "encoding": {
+                "text": {"field": "type", "type": "nominal"},
+                "theta": {"field": "count", "type": "quantitative", "stack": true, "sort": {"field": "count", "order": "descending"}},
+                "radius": {"value": 120},
+                "color": {"value": "black"},
+                "order": {"field": "count", "type": "quantitative", "sort": "descending"}
+            }
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Aircraft Movement by ASK",
+    "data": {
+        "url": "../Dataset/yearly.csv"
+    },
+    "mark": "point",
+    "encoding": {
+        "x": {
+            "field": "ASK",
+            "type": "quantitative"
+        },
+        "y": {
+            "field": "RPK",
+            "type": "quantitative"
+        },
+        "size": {
+            "field": "Aircraft_Movement",
+            "type": "quantitative"
+        }
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Histogram of Monthly Passenger Traffic",
+    "data": {
+        "url": "../Dataset/monthly.csv"
+    },
+    "mark": "bar",
+    "encoding": {
+        "x": {
+            "field": "Total",
+            "type": "quantitative",
+            "bin": {
+                "maxbins": 30
+            },
+            "title": "Total Passenger Traffic"
+        },
+        "y": {
+            "aggregate": "count",
+            "type": "quantitative",
+            "title": "Count"
+        },
+        "tooltip": [
+            {
+                "field": "Total",
+                "type": "quantitative",
+                "title": "Total Passenger Traffic",
+                "bin": {
+                    "maxbins": 30
+                }
+            },
+            {
+                "aggregate": "count",
+                "type": "quantitative",
+                "title": "Count"
+            }
+        ]
+    },
+    "config": {
+        "view": {
+            "strokeWidth": 0
+        },
+        "axis": {
+            "domain": false
+        }
+    }
+}
