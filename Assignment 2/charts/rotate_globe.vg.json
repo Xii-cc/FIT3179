@@ -1,0 +1,109 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 300,
+    "height": 300,
+    "projection": {
+      "type": "orthographic",
+      "rotate": {"expr": "[rotate0, rotate1, 0]"}
+    },
+    "params": [
+      {
+        "name": "rotate0",
+        "value": 0,
+        "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
+      },
+      {
+        "name": "rotate1",
+        "value": 0,
+        "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
+      },
+      {
+        "name": "airportSize",
+        "value": 6,
+        "bind": {"input": "range", "min": 0, "max": 12, "step": 0.1}
+      }
+    ],
+    "layer": [
+      {
+        "data": {"sphere": true},
+        "mark": {"type": "geoshape", "fill": "#00008B"}
+      },
+      {
+        "data": {
+          "name": "world",
+          "url": "../Dataset/ne_110m_admin_0_countries.json",
+          "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+        },
+        "mark": {"type": "geoshape", "fill": "#006400", "stroke": "black"}
+      },
+      {
+        "data": {
+          "name": "airports",
+          "url": "../Dataset/airports.csv",
+          "format": {"type": "csv"}
+        },
+        "transform": [
+          {"calculate": "datum.Longitude", "as": "longitude"},
+          {"calculate": "datum.Latitude", "as": "latitude"},
+          {
+            "filter": "(rotate0 * -1) - 90 < datum.longitude && datum.longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.latitude && datum.latitude < (rotate1 * -1) + 90"
+          },
+          {"calculate": "datum.Altitude", "as": "altitude"}
+        ],
+        "mark": {"type": "circle", "color": "white", "opacity": 0.75},
+        "encoding": {
+          "longitude": {"field": "longitude", "type": "quantitative"},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "size": {
+            "value": {"expr": "airportSize"}
+          },
+          "color": {
+          "field": "Altitude",
+          "type": "quantitative",
+          "scale": {
+            "range": [
+              "#00FFFF",  
+              "#7FFF00",  
+              "#FFFF00",  
+              "#FFA500", 
+              "#FF4500"   
+            ]
+          },
+          "title": "Altitude (ft)"
+        },
+          "tooltip": [
+            {"field": "Name", "type": "nominal"},
+            {"field": "City", "type": "nominal"},
+            {"field": "Country", "type": "nominal"},
+            {"field": "Altitude", "type": "quantitative"}
+          ]
+        }
+      },
+      {
+        "data": {
+          "url": "../Dataset/routes_with_distance.csv",
+            "format": {"type": "csv"}
+        },
+        "transform": [
+            {"filter": "datum.Source_Airport == 'KUL'"},
+            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "Distance_km", "order": "descending"}]},
+            {"filter": "datum.rank <= 5"},
+            {
+              "filter": "(rotate0 * -1) - 90 < datum.Source_Longitude && datum.Source_Longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.Source_Latitude && datum.Source_Latitude < (rotate1 * -1) + 90 && (rotate0 * -1) - 90 < datum.Destination_Longitude && datum.Destination_Longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.Destination_Latitude && datum.Destination_Latitude < (rotate1 * -1) + 90"
+            }
+        ],
+        "mark": {"type": "line", "color": "red", "strokeWidth": 2},
+        "encoding": {
+          "longitude": {"field": "Source_Longitude", "type": "quantitative"},
+          "latitude": {"field": "Source_Latitude", "type": "quantitative"},
+          "longitude2": {"field": "Destination_Longitude"},
+          "latitude2": {"field": "Destination_Latitude"},
+          "tooltip": [
+            {"field": "Source_Airport", "type": "nominal"},
+            {"field": "Destination_Airport", "type": "nominal"},
+            {"field": "Distance_km", "type": "quantitative"}
+          ]
+        }
+      }
+    ]
+  }

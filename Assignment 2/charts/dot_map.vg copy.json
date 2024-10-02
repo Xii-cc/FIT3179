@@ -1,0 +1,48 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 1200,
+    "height": 600,
+    "title": "Dot Map Showing the Airports Worldwide",
+    "background": "#1e1e1e",
+    "projection": {"type": "equirectangular"},
+    "layer": [
+      {
+        "data": {
+          "url": "../Dataset/ne_50m_admin_0_countries.json",
+          "format": {"type": "topojson", "feature": "ne_50m_admin_0_countries"}
+        },
+        "mark": {"type": "geoshape", "fill": "#2e2e2e", "stroke": "#444444"}
+      },
+      {
+        "data": {
+          "url": "../Dataset/ne_110m_graticules_30.json",
+          "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+        },
+        "mark": {"type": "geoshape", "stroke": "#666666", "strokeOpacity": 0.5, "strokeWidth": 1}
+      },
+      {
+        "data": {
+          "url": "../Dataset/airports.csv"
+        },
+        "mark": {"type": "circle", "size": 20, "color": "white"},
+        "encoding": {
+          "longitude": {"field": "Longitude", "type": "quantitative"},
+          "latitude": {"field": "Latitude", "type": "quantitative"},
+          "color": {
+            "field": "Altitude",
+            "type": "quantitative",
+            "scale": {
+              "range": [
+                "#00FFFF",  
+                "#7FFF00",  
+                "#FFFF00",  
+                "#FFA500", 
+                "#FF4500"   
+              ]
+            },
+            "title": "Altitude (ft)"
+          }
+        }
+      }
+    ]
+  }
