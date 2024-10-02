@@ -1,10 +1,11 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 300,
-    "height": 300,
+    "width": 500,
+    "height": 500,
     "projection": {
       "type": "orthographic",
-      "rotate": {"expr": "[rotate0, rotate1, 0]"}
+      "rotate": {"expr": "[rotate0, rotate1, 0]"},
+      "scale": {"expr": "zoom"}
     },
     "params": [
       {
@@ -21,6 +22,12 @@
         "name": "airportSize",
         "value": 6,
         "bind": {"input": "range", "min": 0, "max": 12, "step": 0.1}
+      },
+      {
+        "name": "zoom",
+        "value": 250,
+        "bind": {"input": "range", "min": 100, "max": 1000, "step": 10,
+          "name": "Zoom: "}
       }
     ],
     "layer": [
@@ -55,8 +62,12 @@
           "longitude": {"field": "longitude", "type": "quantitative"},
           "latitude": {"field": "latitude", "type": "quantitative"},
           "size": {
+            "condition": {
+                "test": "datum.IATA === 'KUL'",
+                "value": 1000
+            },
             "value": {"expr": "airportSize"}
-          },
+            },
           "color": {
           "field": "Altitude",
           "type": "quantitative",
@@ -81,28 +92,26 @@
       },
       {
         "data": {
-          "url": "../Dataset/routes_with_distance.csv",
+          "url": "../Dataset/mly_route.csv",
             "format": {"type": "csv"}
         },
         "transform": [
-            {"filter": "datum.Source_Airport == 'KUL'"},
-            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "Distance_km", "order": "descending"}]},
-            {"filter": "datum.rank <= 5"},
             {
               "filter": "(rotate0 * -1) - 90 < datum.Source_Longitude && datum.Source_Longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.Source_Latitude && datum.Source_Latitude < (rotate1 * -1) + 90 && (rotate0 * -1) - 90 < datum.Destination_Longitude && datum.Destination_Longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.Destination_Latitude && datum.Destination_Latitude < (rotate1 * -1) + 90"
+            },
+            {
+                "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",
+                "as": "geojson"
             }
         ],
-        "mark": {"type": "line", "color": "red", "strokeWidth": 2},
+        "mark": {"type": "geoshape", "stroke": "red", "strokeWidth": 2, "fill": null},
         "encoding": {
-          "longitude": {"field": "Source_Longitude", "type": "quantitative"},
-          "latitude": {"field": "Source_Latitude", "type": "quantitative"},
-          "longitude2": {"field": "Destination_Longitude"},
-          "latitude2": {"field": "Destination_Latitude"},
-          "tooltip": [
-            {"field": "Source_Airport", "type": "nominal"},
-            {"field": "Destination_Airport", "type": "nominal"},
-            {"field": "Distance_km", "type": "quantitative"}
-          ]
+            "shape": {"field": "geojson", "type": "geojson"},
+            "tooltip": [
+                {"field": "Source_Airport", "type": "nominal"},
+                {"field": "Destination_Airport", "type": "nominal"},
+                {"field": "Distance_km", "type": "quantitative"}
+            ]
         }
       }
     ]
