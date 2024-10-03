@@ -7,129 +7,97 @@
   },
   "layer": [
     {
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ddd",
+        "stroke": "#fff",
+        "strokeWidth": 1
+      },
       "data": {
         "url": "../Dataset/ne_10m_admin_1_states_provinces.json",
         "format": {
           "type": "topojson",
           "feature": "ne_10m_admin_1_states_provinces"
         }
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": "#ddd",
-        "stroke": "#fff",
-        "strokeWidth": 1
       }
     },
     {
+      "mark": {"type": "rule", "color": "#000", "opacity": 0.35},
       "data": {
-        "url": "../Dataset/my_airports_cleaned.csv",
-        "format": {
-          "type": "csv"
-        }
-      },
-      "mark": {"type": "circle"},
-      "encoding": {
-        "longitude": {
-          "field": "longitude_deg",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "latitude_deg",
-          "type": "quantitative"
-        },
-        "size": {
-          "field": "connectivity",
-          "type": "quantitative",
-          "scale": {"range": [0, 1000]}
-        },
-        "color": {
-          "field": "type",
-          "type": "nominal",
-          "scale": {
-            "domain": ["small_airport", "medium_airport", "large_airport"],
-            "range": ["red", "green", "blue"]
-          }
-        },
-        "tooltip": [
-          {"field": "name", "type": "nominal", "title": "Airport Name"},
-          {"field": "type", "type": "nominal", "title": "Type"},
-          {"field": "elevation_ft", "type": "quantitative", "title": "Elevation (ft)"}
-        ]
-      },  
-      "params": [
-        {
-          "name": "hover",
-          "select": {"type": "point", "on": "mouseover", "nearest": true, "fields": ["iata_code", "longitude_deg", "latitude_deg"]}
-        }
-      ]
-    },
-    {
-      "data": {
-        "url": "../Dataset/malaysia_routes.csv",
-        "format": {
-          "type": "csv"
-        }
-      },
-      "mark": {
-        "type": "rule"
+        "url": "../Dataset/my_routes_grouped.csv"
       },
       "transform": [
         {
-          "filter": {
-            "or": [
-              {"param": "hover", "empty": false, "field": "Source_Airport", "equal": {"expr": "hover.iata_code"}},
-              {"param": "hover", "empty": false, "field": "Destination_Airport", "equal": {"expr": "hover.iata_code"}}
-            ]
-          }
+          "filter": {"param": "hover", "empty": false}
         },
         {
           "lookup": "Source_Airport",
           "from": {
-            "data": {
-              "url": "../Dataset/my_airports_cleaned.csv",
-              "format": {"type": "csv"}
-            },
+            "data": {"url": "../Dataset/my_airports_new.csv"},
             "key": "iata_code",
-            "fields": ["longitude_deg", "latitude_deg"]
-          },
-          "as": ["Source_Longitude", "Source_Latitude"]
+            "fields": ["latitude_deg", "longitude_deg"]
+          }, "as": ["source_latitude", "source_longitude"]
         },
         {
           "lookup": "Destination_Airport",
           "from": {
-            "data": {
-              "url": "../Dataset/my_airports_cleaned.csv",
-              "format": {"type": "csv"}
-            },
+            "data": {"url": "../Dataset/my_airports_new.csv"},
             "key": "iata_code",
-            "fields": ["longitude_deg", "latitude_deg"]
-          },
-          "as": ["Destination_Longitude", "Destination_Latitude"]
+            "fields": ["latitude_deg", "longitude_deg"]
+          }, "as": ["destination_latitude", "destination_longitude"]
         }
       ],
       "encoding": {
-        "latitude": {"field": "Source_Latitude", "type": "quantitative"},
-        "longitude": {"field": "Source_Longitude", "type": "quantitative"},
-        "latitude2": {"field": "Destination_Latitude", "type": "quantitative"},
-        "longitude2": {"field": "Destination_Longitude", "type": "quantitative"},
+        "latitude": {"field": "source_latitude"},
+        "longitude": {"field": "source_longitude"},
+        "latitude2": {"field": "destination_latitude"},
+        "longitude2": {"field": "destination_longitude"}
+      }
+    },
+    {
+      "mark": {"type": "circle"},
+      "data": {
+        "url": "../Dataset/my_routes_grouped.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "transform": [
+        {"aggregate": [{"op": "count", "as": "routes"}], "groupby": ["Source_Airport"]},
+        {
+          "lookup": "Source_Airport",
+          "from": {
+            "data": {"url": "../Dataset/my_airports_new.csv"},
+            "key": "iata_code",
+            "fields": ["latitude_deg", "longitude_deg"]
+          }, "as": ["latitude_deg", "longitude_deg"]
+        }
+      ],
+      "params": [{
+        "name": "hover",
+        "select": {"type": "point", "fields": ["Source_Airport"], "on": "mouseover", "nearest": true, "clear": "mouseout"}
+      }],
+      "encoding": {
+        "latitude": {"field": "latitude_deg"},
+        "longitude": {"field": "longitude_deg"},
+        "size": {
+          "field": "routes",
+          "type": "quantitative",
+          "scale": {"range": [0, 1000]},
+          "legend": {"title": "Number of Routes"}
+        },
+        "order": {
+          "field": "routes",
+          "sort": "descending"
+        },
         "color": {
           "condition": {
             "param": "hover",
-            "value": "red",
-            "empty": false
+            "empty": false,
+            "value": "gold"
           },
-          "value": "black"
-        },
-        "opacity": {
-          "condition": {
-            "param": "hover",
-            "value": 0.5,
-            "empty": false
-          },
-          "value": 0.05
+          "value": "steelblue"
         }
       }
+      }]
     }
-  ]
-}
