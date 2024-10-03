@@ -4,17 +4,12 @@
   "height": 500,
   "projection": {
     "type": "orthographic",
-    "rotate": {"expr": "[rotate0, rotate1, 0]"},
+    "rotate": {"expr": "[rotate0, 0, 0]"},
     "scale": {"expr": "zoom"}
   },
   "params": [
     {
       "name": "rotate0",
-      "value": 0,
-      "bind": {"input": "range", "min": -180, "max": 180, "step": 1}
-    },
-    {
-      "name": "rotate1",
       "value": 0,
       "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
     },
@@ -61,7 +56,7 @@
         {"calculate": "datum.Longitude", "as": "longitude"},
         {"calculate": "datum.Latitude", "as": "latitude"},
         {
-          "filter": "(rotate0 * -1) - 180 < datum.longitude && datum.longitude < (rotate0 * -1) + 180 && (rotate1 * -1) - 90 < datum.latitude && datum.latitude < (rotate1 * -1) + 90"
+          "filter": "(rotate0 * -1) - 90 < datum.longitude && datum.longitude < (rotate0 * -1) + 90"
         },
         {"calculate": "datum.Altitude", "as": "altitude"}
       ],
@@ -93,11 +88,11 @@
           "type": "quantitative",
           "scale": {
             "range": [
-              "#00FFFF",  
-              "#7FFF00",  
-              "#FFFF00",  
-              "#FFA500", 
-              "#FF4500"   
+              "#00FFFF",
+              "#7FFF00",
+              "#FFFF00",
+              "#FFA500",
+              "#FF4500"
             ]
           },
           "title": "Altitude (ft)"
@@ -123,7 +118,7 @@
       },
       "transform": [
         {
-          "filter": "(rotate0 * -1) - 180 < datum.Source_Longitude && datum.Source_Longitude < (rotate0 * -1) + 180 && (rotate1 * -1) - 90 < datum.Source_Latitude && datum.Source_Latitude < (rotate1 * -1) + 90 && (rotate0 * -1) - 180 < datum.Destination_Longitude && datum.Destination_Longitude < (rotate0 * -1) + 180 && (rotate1 * -1) - 90 < datum.Destination_Latitude && datum.Destination_Latitude < (rotate1 * -1) + 90"
+          "filter": "(rotate0 * -1) - 90 < datum.Source_Longitude && datum.Source_Longitude < (rotate0 * -1) + 90 && (rotate0 * -1) - 90 < datum.Destination_Longitude && datum.Destination_Longitude < (rotate0 * -1) + 90"
         },
         {
           "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",

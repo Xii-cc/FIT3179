@@ -56,7 +56,7 @@
           {"field": "type", "type": "nominal", "title": "Type"},
           {"field": "elevation_ft", "type": "quantitative", "title": "Elevation (ft)"}
         ]
-      },
+      },  
       "params": [
         {
           "name": "hover",
