@@ -60,7 +60,7 @@
       "params": [
         {
           "name": "hover",
-          "select": {"type": "point", "on": "pointerover", "nearest": true, "fields": ["iata_code"]}
+          "select": {"type": "point", "on": "mouseover", "nearest": true, "fields": ["iata_code", "longitude_deg", "latitude_deg"]}
         }
       ]
     },

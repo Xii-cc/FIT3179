@@ -1,10 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
   "height": 600,
-  "projection": {
-    "type": "mercator"
-  },
+  "width": 800,
+  "projection": {"type": "mercator"},
   "layer": [
     {
       "data": {
@@ -15,28 +13,20 @@
         }
       },
       "mark": {
-        "type": "geoshape",
         "fill": "#ddd",
         "stroke": "#fff",
-        "strokeWidth": 1
+        "strokeWidth": 1,
+        "type": "geoshape"
       }
     },
     {
+      "mark": {"type": "rule", "color": "#000", "opacity": 0.35},
       "data": {
         "url": "../Dataset/malaysia_routes.csv",
-        "format": {
-          "type": "csv"
-        }
-      },
-      "mark": {
-        "type": "rule",
-        "color": "#000",
-        "opacity": 0.35
+        "format": {"type": "csv"}
       },
       "transform": [
-        {
-          "filter": {"param": "hover", "empty": false}
-        },
+        {"filter": {"param": "org", "empty": false}},
         {
           "lookup": "Source_Airport",
           "from": {
@@ -45,10 +35,8 @@
               "format": {"type": "csv"}
             },
             "key": "iata_code",
-            "fields": ["longitude_deg", "latitude_deg"]
-          },
-          "as": ["Source_Longitude", "Source_Latitude"]
-        },
+            "fields": ["latitude", "longitude"]
+        }},
         {
           "lookup": "Destination_Airport",
           "from": {
@@ -57,57 +45,80 @@
               "format": {"type": "csv"}
             },
             "key": "iata_code",
-            "fields": ["longitude_deg", "latitude_deg"]
-          },
-          "as": ["Destination_Longitude", "Destination_Latitude"]
+            "fields": ["latitude2", "longitude2"]
+          }
         }
       ],
       "encoding": {
-        "latitude": {"field": "Source_Latitude"},
-        "longitude": {"field": "Source_Longitude"},
-        "latitude2": {"field": "Destination_Latitude"},
-        "longitude2": {"field": "Destination_Longitude"}
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude2": {"field": "latitude2", "type": "quantitative"},
+        "longitude2": {"field": "longitude2", "type": "quantitative"}
       }
     },
     {
-      "data": {
-        "url": "../Dataset/my_airports_cleaned.csv",
-        "format": {
-          "type": "csv"
-        }
-      },
       "mark": {"type": "circle"},
+      "data": {
+        "url": "../Dataset/malaysia_routes.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "aggregate": [{"op": "count", "as": "routes"}], "groupby": ["Source_Airport"]},
+        {
+          "lookup": "Source_Airport",
+          "from": {
+            "data": {
+              "url": "../Dataset/my_airports_cleaned.csv",
+              "format": {"type": "csv"}
+            },
+            "key": "iata_code",
+            "fields": ["latitude_deg", "longitude_deg"]
+          },
+          "as": ["latitude", "longitude"]
+        }
+      ],
+      "params": [{
+        "name": "org",
+        "select": {"type": "point", "on": "pointerover", "nearest": true, "fields": ["Source_Airport"]}
+      }],
       "encoding": {
-        "longitude": {
-          "field": "longitude_deg",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "latitude_deg",
-          "type": "quantitative"
-        },
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
         "size": {
-          "field": "connectivity",
+          "field": "routes",
           "type": "quantitative",
-          "scale": {"range": [0, 1000]}
+          "scale": {"range": [0, 1000]},
+          "title": "Number of Routes"
         },
         "tooltip": [
-          {"field": "name", "type": "nominal"},
-          {"field": "region_name", "type": "nominal"},
-          {"field": "connectivity", "type": "quantitative"}
+          {"field": "Source_Airport", "type": "nominal"},
+          {"field": "routes", "type": "quantitative"}
         ],
         "order": {
-          "field": "connectivity",
+          "field": "routes",
           "type": "quantitative",
           "sort": "descending"
         }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "dy": 5,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "fill": "black"
       },
-      "params": [
-        {
-          "name": "hover",
-          "select": {"type": "point", "on": "pointerover", "nearest": true, "fields": ["Source_Airport"]}
-        }
-      ]
+      "encoding": {
+        "text": {
+          "signal": "org && org.Source_Airport ? JSON.stringify(org) : 'No hover'"
+        },
+        "x": {"value": 10},
+        "y": {"value": 10}
+      }
     }
   ]
 }
