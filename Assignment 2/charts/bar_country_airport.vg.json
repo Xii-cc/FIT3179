@@ -14,7 +14,7 @@
             "sort": [{"field": "Number of Airports", "order": "descending"}]
         },
         {
-            "filter": "datum.rank <= 10"
+            "filter": "datum.rank <= 10 || datum.Country == 'Malaysia'"
         }
     ],
     "encoding": {
@@ -36,9 +36,43 @@
             "encoding": {
                 "tooltip": [
                     {"field": "Country", "type": "nominal"},
-                    {"field": "Number of Airports", "type": "quantitative"}
-                ]
-            }
+                    {"field": "Number of Airports", "type": "quantitative"},
+                    {"field": "rank", "type": "ordinal"}
+                ],
+                "size": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": false,
+                        "value": 20
+                    },
+                    "value": 15
+                },
+                "color": {
+                    "condition": [
+                        {
+                            "param": "hover",
+                            "empty": false,
+                            "value": "gold"
+                        },
+                        {
+                            "param": "select",
+                            "empty": false,
+                            "value": "red"
+                        }
+                    ],
+                    "value": "steelblue"
+                }
+            },
+            "params": [
+                {
+                    "name": "hover",
+                    "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+                },
+                {
+                    "name": "select",
+                    "select": {"type": "point", "toggle": "event.shiftKey", "clear": "dblclick"}
+                }
+            ]
         }
     ]
 

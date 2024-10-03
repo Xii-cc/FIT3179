@@ -121,9 +121,9 @@
             "format": {"type": "csv"}
         },
         "transform": [
-            {
-              "filter": "(rotate0 * -1) - 90 < datum.Source_Longitude && datum.Source_Longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.Source_Latitude && datum.Source_Latitude < (rotate1 * -1) + 90 && (rotate0 * -1) - 90 < datum.Destination_Longitude && datum.Destination_Longitude < (rotate0 * -1) + 90 && (rotate1 * -1) - 90 < datum.Destination_Latitude && datum.Destination_Latitude < (rotate1 * -1) + 90"
-            },
+          {
+            "filter": "((datum.Source_Longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.Source_Longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.Source_Longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && ((datum.Source_Latitude >= (rotate1 * -1) - 90 && datum.Source_Latitude <= (rotate1 * -1) + 90) || (datum.Source_Latitude >= (rotate1 * -1) + 90 && datum.Source_Latitude <= (rotate1 * -1) + 180) || (datum.Source_Latitude >= (rotate1 * -1) - 180 && datum.Source_Latitude <= (rotate1 * -1) - 90)) && ((datum.Destination_Longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.Destination_Longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.Destination_Longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && ((datum.Destination_Latitude >= (rotate1 * -1) - 90 && datum.Destination_Latitude <= (rotate1 * -1) + 90) || (datum.Destination_Latitude >= (rotate1 * -1) + 90 && datum.Destination_Latitude <= (rotate1 * -1) + 180) || (datum.Destination_Latitude >= (rotate1 * -1) - 180 && datum.Destination_Latitude <= (rotate1 * -1) - 90))"
+          },
             {
                 "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",
                 "as": "geojson"
