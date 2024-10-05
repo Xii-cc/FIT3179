@@ -1,0 +1,146 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 400,
+    "projection": {
+      "type": "mercator"
+    },
+    "config": {
+      "background": "#c3f4fe"
+    },
+    "layer": [
+      {
+        "mark": {
+          "type": "geoshape",
+          "stroke": "#fefded",
+          "strokeWidth": 1
+        },
+        "data": {
+          "url": "./Dataset/ne_10m_admin_1_states_provinces.json",
+          "format": {
+            "type": "topojson",
+            "feature": "ne_10m_admin_0_malaysia"
+          }
+        },
+        "encoding": {
+          "color": {
+            "condition": {
+              "test": "datum.properties.geonunit === 'Malaysia'",
+              "value": "#aad1ac"
+            },
+            "value": "#e8e1c9"
+          },
+          "opacity": {
+            "condition": {
+              "test": "datum.properties.geonunit === 'Malaysia'",
+              "value": 1
+            },
+            "value": 0.5
+          }
+        }
+      },
+      {
+        "mark": {"type": "circle"},
+        "data": {
+          "url": "./Dataset/my_routes_grouped.csv",
+          "format": {
+            "type": "csv"
+          }
+        },
+        "transform": [
+          {"aggregate": [{"op": "sum", "field": "count" ,"as": "routes"}], "groupby": ["Source_Airport"]},
+          {
+            "lookup": "Source_Airport",
+            "from": {
+              "data": {"url": "./Dataset/my_airports_new.csv"},
+              "key": "iata_code",
+              "fields": ["latitude_deg", "longitude_deg", "type", "name", "region_name"]
+            }, "as": ["latitude_deg", "longitude_deg", "type", "name", "region_name"]
+          }
+        ],
+        "params": [
+          {
+            "name": "select_type",
+            "select": {"type": "point", "fields": ["type"]},
+            "bind": "legend"
+          }
+        ],
+        "encoding": {
+          "latitude": {"field": "latitude_deg"},
+          "longitude": {"field": "longitude_deg"},
+          "size": {
+            "field": "routes",
+            "type": "quantitative",
+            "scale": {"range": [100, 1000]},
+            "legend": {
+              "title": "Number of Routes",
+              "labelColor": "black",
+              "titleColor": "black",
+              "symbolStrokeColor": "black",
+              "symbolFillColor": "black"
+            }
+          },
+          "order": {
+            "field": "routes",
+            "sort": "descending"
+          },
+          "color": {
+            "field": "type",
+            "type": "nominal",
+            "scale": {
+              "range": ["#548687", "#eb9486"],
+              "domain": ["medium_airport", "large_airport"]
+            },
+            "legend": {
+              "title": "Type of Airport",
+              "labelExpr": "{'medium_airport': 'Medium Airport', 'large_airport': 'Large Airport'}[datum.value]",
+              "labelColor": "black",
+              "titleColor": "black",
+              "symbolStrokeColor": "black",
+              "symbolFillColor": "black"
+            }
+          },
+          "opacity": {
+            "condition": {"param": "select_type", "value": 1},
+            "value": 0.2
+          },
+          "tooltip": [
+            {"field": "name", "type": "nominal", "title": "Airport Name"},
+            {"field": "region_name", "type": "nominal", "title": "Region"},
+            {"field": "routes", "type": "quantitative", "title": "Number of Routes"}
+          ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "dx": -25,
+          "fontSize": 8,
+          "color": "black"
+        },
+        "data": {
+          "url": "./Dataset/my_routes_grouped.csv"
+        },
+        "transform": [
+          {
+            "aggregate": [{"op": "distinct", "field": "Source_Airport"}],
+            "groupby": ["Source_Airport"]
+          },
+          {
+            "lookup": "Source_Airport",
+            "from": {
+              "data": {"url": "./Dataset/my_airports_new.csv"},
+              "key": "iata_code",
+              "fields": ["latitude_deg", "longitude_deg", "type"]
+            }, "as": ["latitude_deg", "longitude_deg", "type"]
+          }
+        ],
+        "encoding": {
+          "latitude": {"field": "latitude_deg"},
+          "longitude": {"field": "longitude_deg"},
+          "text": {"field": "Source_Airport"}
+        }
+      }
+    ]
+  }
