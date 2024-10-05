@@ -1,0 +1,84 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500, "height": 350,
+    "title": "Monthly Passenger Traffic Heat Map",
+    "data": {
+        "url": "Dataset/monthly.csv"
+    },
+    "params": [{
+        "name": "Select_Rank",
+        "select": {"type": "point", "fields": ["Rank"]},
+        "bind": "legend"
+    }],
+    "transform": [
+        {
+            "window": [
+                {
+                    "op": "rank",
+                    "field": "Total",
+                    "as": "Rank"
+                }
+            ],
+            "groupby": ["Year"],
+            "sort": [{"field": "Total", "order": "descending"}]
+        }
+    ],
+    "config": {
+        "view": {
+            "strokeWidth": 0,
+            "step": 13
+        },
+        "axis": {
+            "domain": false
+        }
+    },
+    "mark": "rect",
+    "encoding": {
+        "x": {
+            "field": "Month",
+            "type": "ordinal",
+            "title": "Month",
+            "sort": null
+        },
+        "y": {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+        },
+        "color": {
+            "field": "Rank",
+            "type": "ordinal",
+            "title": "Monthly Rank",
+            "scale": {
+                "domain": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                "range": ["#000000", "#02102a", "#041f4a", "#08306b", "#08519c", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#deebf7", "#f7fbff"]
+            }
+        },
+        "opacity": {
+            "condition": {"param": "Select_Rank", "value": 1},
+            "value": 0.2
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+            },
+            {
+                "field": "Month",
+                "type": "ordinal",
+                "title": "Month"
+            },
+            {
+                "field": "Total",
+                "type": "quantitative",
+                "title": "Total Passenger Traffic"
+            },
+            {
+                "field": "Rank",
+                "type": "ordinal",
+                "title": "Monthly Rank"
+            }
+        ]
+    }
+}

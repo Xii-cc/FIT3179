@@ -2,20 +2,14 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 1200,
     "height": 600,
-    "title": "Radial Plot Showing the Malaysian Airports",
+    "title": "Radial Plot Showing the Number of Different Types of Airports in Malaysia",
     "data": {
-        "url": "../Dataset/my_airports_new.csv"
+        "url": "Dataset/my_airports_new.csv"
     },
     "transform": [
         {
-            "aggregate": [
-                {"op": "count", "as": "count"}
-            ],
+            "aggregate": [{"op": "count", "as": "count"}],
             "groupby": ["type"]
-        },
-        {
-            "calculate": "datum.type + ' (' + datum.count + ')'",
-            "as": "type_count"
         }
     ],
     "layer": [
@@ -23,12 +17,12 @@
             "mark": {
                 "type": "arc",
                 "innerRadius": 20,
-                "stroke": "#fff"
+                "stroke": "#fff",
+                "tooltip": true
             },
             "encoding": {
-                "theta": {"field": "count", "type": "quantitative", "stack": true},
-                "radius": {"field": "count", "scale": {"type": "sqrt", "zero": true, "rangeMin": 20}},
-                "color": {"field": "type", "type": "nominal", "legend": {"title": "Airport Type", "orient": "top"}},
+                "theta": {"field": "count", "type": "quantitative", "stack": true, "sort": {"field": "count", "order": "descending"}},
+                "color": {"field": "type", "type": "nominal", "legend": {"title": "Airport Type"}},
                 "order": {"field": "count", "type": "quantitative", "sort": "descending"}
             }
         },
@@ -38,8 +32,8 @@
                 "radiusOffset": 10
             },
             "encoding": {
-                "text": {"field": "type_count", "type": "nominal"},
-                "theta": {"field": "count", "type": "quantitative", "stack": true},
+                "text": {"field": "type", "type": "nominal"},
+                "theta": {"field": "count", "type": "quantitative", "stack": true, "sort": {"field": "count", "order": "descending"}},
                 "radius": {"value": 120},
                 "color": {"value": "black"},
                 "order": {"field": "count", "type": "quantitative", "sort": "descending"}

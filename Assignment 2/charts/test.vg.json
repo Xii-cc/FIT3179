@@ -1,94 +1,87 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
-  "height": 600,
+  "width": 500,
+  "height": 500,
   "projection": {
-    "type": "mercator"
+    "type": "orthographic",
+    "rotate": {"expr": "[rotate0, rotate1, 0]"},
+    "scale": {"expr": "zoom"},
+    "clipAngle": 90
   },
+  "params": [
+    {
+      "name": "rotate0",
+      "value": 0,
+      "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
+    },
+    {
+      "name": "rotate1",
+      "value": 0,
+      "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
+    },
+    {
+      "name": "airportSize",
+      "value": 6,
+      "bind": {"input": "range", "min": 0, "max": 12, "step": 0.1}
+    },
+    {
+      "name": "zoom",
+      "value": 250,
+      "bind": {
+        "input": "range",
+        "min": 100,
+        "max": 1000,
+        "step": 10,
+        "name": "Zoom: "
+      }
+    }
+  ],
   "layer": [
     {
-      "mark": {
-        "type": "geoshape",
-        "fill": "#ddd",
-        "stroke": "#fff",
-        "strokeWidth": 1
-      },
+      "data": {"sphere": true},
+      "mark": {"type": "geoshape", "fill": "#00008B"}
+    },
+    {
       "data": {
-        "url": "../Dataset/ne_10m_admin_1_states_provinces.json",
-        "format": {
-          "type": "topojson",
-          "feature": "ne_10m_admin_1_states_provinces"
+        "name": "world",
+        "url": "../Dataset/ne_110m_admin_0_countries.json",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "mark": {"type": "geoshape", "stroke": "black"},
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.properties.NAME === 'Malaysia'",
+            "value": "#FFD700"
+          },
+          "value": "#006400"
         }
       }
     },
     {
-      "mark": {"type": "rule", "color": "#000", "opacity": 0.35},
       "data": {
-        "url": "../Dataset/my_routes_grouped.csv"
+        "name": "airports",
+        "url": "../Dataset/airports.csv",
+        "format": {"type": "csv"}
       },
       "transform": [
+        {"calculate": "datum.Longitude", "as": "longitude"},
+        {"calculate": "datum.Latitude", "as": "latitude"},
         {
-          "filter": {"param": "hover", "empty": false}
+          "filter": "((datum.longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && (datum.latitude >= (rotate1 * -1) - 90 && datum.latitude <= (rotate1 * -1) + 90)"
         },
-        {
-          "lookup": "Source_Airport",
-          "from": {
-            "data": {"url": "../Dataset/my_airports_new.csv"},
-            "key": "iata_code",
-            "fields": ["latitude_deg", "longitude_deg"]
-          }, "as": ["source_latitude", "source_longitude"]
-        },
-        {
-          "lookup": "Destination_Airport",
-          "from": {
-            "data": {"url": "../Dataset/my_airports_new.csv"},
-            "key": "iata_code",
-            "fields": ["latitude_deg", "longitude_deg"]
-          }, "as": ["destination_latitude", "destination_longitude"]
-        }
+        {"calculate": "datum.Altitude", "as": "altitude"}
       ],
+      "mark": {"type": "circle", "color": "white", "opacity": 0.75},
       "encoding": {
-        "latitude": {"field": "source_latitude"},
-        "longitude": {"field": "source_longitude"},
-        "latitude2": {"field": "destination_latitude"},
-        "longitude2": {"field": "destination_longitude"}
-      }
-    },
-    {
-      "mark": {"type": "circle"},
-      "data": {
-        "url": "../Dataset/my_routes_grouped.csv",
-        "format": {
-          "type": "csv"
-        }
-      },
-      "transform": [
-        {"aggregate": [{"op": "count", "as": "routes"}], "groupby": ["Source_Airport"]},
-        {
-          "lookup": "Source_Airport",
-          "from": {
-            "data": {"url": "../Dataset/my_airports_new.csv"},
-            "key": "iata_code",
-            "fields": ["latitude_deg", "longitude_deg"]
-          }, "as": ["latitude_deg", "longitude_deg"]
-        }
-      ],
-      "params": [{
-        "name": "hover",
-        "select": {"type": "point", "fields": ["Source_Airport"], "on": "mouseover", "nearest": true, "clear": "mouseout"}
-      }],
-      "encoding": {
-        "latitude": {"field": "latitude_deg"},
-        "longitude": {"field": "longitude_deg"},
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
         "size": {
-          "field": "routes",
-          "type": "quantitative",
-          "scale": {"range": [0, 1000]},
-          "legend": {"title": "Number of Routes"}
-        },
-        "order": {
-          "field": "routes",
-          "sort": "descending"
+          "condition": [
+            {"test": "datum.IATA === 'KUL'", "value": 1000},
+            {"param": "hover", "empty": false, "value": 500}
+          ],
+          "value": {"expr": "airportSize"}
         },
         "color": {
           "condition": {
@@ -96,8 +89,61 @@
             "empty": false,
             "value": "gold"
           },
-          "value": "steelblue"
+          "field": "Altitude",
+          "type": "quantitative",
+          "scale": {
+            "range": [
+              "#00FFFF",  
+              "#7FFF00",  
+              "#FFFF00",  
+              "#FFA500", 
+              "#FF4500"
+            ]
+          },
+          "title": "Altitude (ft)"
+        },
+        "tooltip": [
+          {"field": "Name", "type": "nominal"},
+          {"field": "City", "type": "nominal"},
+          {"field": "Country", "type": "nominal"},
+          {"field": "Altitude", "type": "quantitative"}
+        ]
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
         }
+      ]
+    },
+    {
+      "data": {
+        "url": "../Dataset/mly_route.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "filter": "((datum.Source_Longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.Source_Longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.Source_Longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && ((datum.Source_Latitude >= (rotate1 * -1) - 90 && datum.Source_Latitude <= (rotate1 * -1) + 90) || (datum.Source_Latitude >= (rotate1 * -1) + 90 && datum.Source_Latitude <= (rotate1 * -1) + 180) || (datum.Source_Latitude >= (rotate1 * -1) - 180 && datum.Source_Latitude <= (rotate1 * -1) - 90)) && ((datum.Destination_Longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.Destination_Longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.Destination_Longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && ((datum.Destination_Latitude >= (rotate1 * -1) - 90 && datum.Destination_Latitude <= (rotate1 * -1) + 90) || (datum.Destination_Latitude >= (rotate1 * -1) + 90 && datum.Destination_Latitude <= (rotate1 * -1) + 180) || (datum.Destination_Latitude >= (rotate1 * -1) - 180 && datum.Destination_Latitude <= (rotate1 * -1) - 90))"
+        },
+        {
+          "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",
+          "as": "geojson"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "red",
+        "strokeWidth": 2,
+        "fill": null
+      },
+      "encoding": {
+        "shape": {"field": "geojson", "type": "geojson"},
+        "tooltip": [
+          {"field": "Source_Airport", "type": "nominal"},
+          {"field": "Destination_Airport", "type": "nominal"},
+          {"field": "Distance_km", "type": "quantitative"}
+        ]
       }
-      }]
     }
+  ]
+}

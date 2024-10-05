@@ -4,7 +4,7 @@
     "height": 600,
     "title": "Radial Plot Showing the Number of Different Types of Airports in Malaysia",
     "data": {
-        "url": "../Dataset/my_airports_cleaned.csv"
+        "url": "../Dataset/my_airports_new.csv"
     },
     "transform": [
         {

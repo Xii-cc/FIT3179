@@ -1,0 +1,143 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 500,
+    "projection": {
+      "type": "orthographic",
+      "rotate": {"expr": "[rotate0, rotate1, 0]"},
+      "scale": {"expr": "zoom"}
+    },
+    "params": [
+      {
+        "name": "rotate0",
+        "value": 0,
+        "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
+      },
+      {
+        "name": "rotate1",
+        "value": 0,
+        "bind": {"input": "range", "min": -90, "max": 90, "step": 1}
+      },
+      {
+        "name": "airportSize",
+        "value": 6,
+        "bind": {"input": "range", "min": 0, "max": 12, "step": 0.1}
+      },
+      {
+        "name": "zoom",
+        "value": 250,
+        "bind": {"input": "range", "min": 100, "max": 1000, "step": 10,
+          "name": "Zoom: "}
+      }
+    ],
+    "layer": [
+      {
+        "data": {"sphere": true},
+        "mark": {"type": "geoshape", "fill": "#00008B"}
+      },
+      {
+        "data": {
+          "name": "world",
+          "url": "Dataset/ne_110m_admin_0_countries.json",
+          "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+        },
+        "mark": {"type": "geoshape", "stroke": "black"},
+        "encoding": {
+          "color": {
+            "condition": {
+              "test": "datum.properties.NAME === 'Malaysia'",
+              "value": "#FFD700"
+            },
+            "value": "#006400"
+          }
+        }
+      },
+      {
+        "data": {
+          "name": "airports",
+          "url": "Dataset/airports.csv",
+          "format": {"type": "csv"}
+        },
+        "transform": [
+          {"calculate": "datum.Longitude", "as": "longitude"},
+          {"calculate": "datum.Latitude", "as": "latitude"},
+          {
+            "filter": "((datum.longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && (datum.latitude >= (rotate1 * -1) - 90 && datum.latitude <= (rotate1 * -1) + 90)"
+          },
+          {"calculate": "datum.Altitude", "as": "altitude"}
+        ],
+        "mark": {"type": "circle", "color": "white", "opacity": 0.75},
+        "encoding": {
+          "longitude": {"field": "longitude", "type": "quantitative"},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "size": {
+            "condition": [{
+                "test": "datum.IATA === 'KUL'",
+                "value": 1000
+            },
+            {
+              "param": "hover",
+              "empty": false,
+              "value": 500
+            }],
+            "value": {"expr": "airportSize"}
+            },
+          "color": {
+            "condition": {
+              "param": "hover",
+              "empty": false,
+              "value": "gold"
+            },
+            "field": "Altitude",
+            "type": "quantitative",
+            "scale": {
+              "range": [
+                "#00FFFF",  
+                "#7FFF00",  
+                "#FFFF00",  
+                "#FFA500", 
+                "#FF4500"   
+              ]
+            },
+            "title": "Altitude (ft)"
+        },
+          "tooltip": [
+            {"field": "Name", "type": "nominal"},
+            {"field": "City", "type": "nominal"},
+            {"field": "Country", "type": "nominal"},
+            {"field": "Altitude", "type": "quantitative"}
+          ]
+        },
+        "params": [
+          {
+            "name": "hover",
+            "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+          }
+        ]
+      },
+      {
+        "data": {
+          "url": "Dataset/mly_route.csv",
+            "format": {"type": "csv"}
+        },
+        "transform": [
+          {
+            "filter": "((datum.Source_Longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.Source_Longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.Source_Longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.Source_Longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && ((datum.Source_Latitude >= (rotate1 * -1) - 90 && datum.Source_Latitude <= (rotate1 * -1) + 90) || (datum.Source_Latitude >= (rotate1 * -1) + 90 && datum.Source_Latitude <= (rotate1 * -1) + 180) || (datum.Source_Latitude >= (rotate1 * -1) - 180 && datum.Source_Latitude <= (rotate1 * -1) - 90)) && ((datum.Destination_Longitude >= (rotate0 * -1) - 90 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) + 90 + abs(rotate1)) || (datum.Destination_Longitude >= (rotate0 * -1) + 270 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) + 360 + abs(rotate1)) || (datum.Destination_Longitude >= (rotate0 * -1) - 360 - abs(rotate1) && datum.Destination_Longitude <= (rotate0 * -1) - 270 + abs(rotate1))) && ((datum.Destination_Latitude >= (rotate1 * -1) - 90 && datum.Destination_Latitude <= (rotate1 * -1) + 90) || (datum.Destination_Latitude >= (rotate1 * -1) + 90 && datum.Destination_Latitude <= (rotate1 * -1) + 180) || (datum.Destination_Latitude >= (rotate1 * -1) - 180 && datum.Destination_Latitude <= (rotate1 * -1) - 90))"
+          },
+            {
+                "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",
+                "as": "geojson"
+            }
+        ],
+        "mark": {"type": "geoshape", "stroke": "red", "strokeWidth": 2, "fill": null},
+        "encoding": {
+            "shape": {"field": "geojson", "type": "geojson"},
+            "tooltip": [
+                {"field": "Source_Airport", "type": "nominal"},
+                {"field": "Destination_Airport", "type": "nominal"},
+                {"field": "Distance_km", "type": "quantitative"}
+            ]
+        }
+      }
+    ]
+  }

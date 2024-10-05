@@ -1,0 +1,79 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Top 10 Country with the Most Airports",
+    "data": {
+        "url": "Dataset/airports.csv"
+    },
+    "transform": [
+        {
+            "aggregate": [{"op": "count", "as": "Number of Airports"}],
+            "groupby": ["Country"]
+        },
+        {
+            "window": [{"op": "rank", "as": "rank"}],
+            "sort": [{"field": "Number of Airports", "order": "descending"}]
+        },
+        {
+            "filter": "datum.rank <= 10 || datum.Country == 'Malaysia'"
+        }
+    ],
+    "encoding": {
+        "y": {
+            "field": "Country",
+            "type": "nominal",
+            "sort": {"field": "Number of Airports", "order": "descending"},
+            "axis": {"title": "Country"}
+        },
+        "x": {
+            "field": "Number of Airports",
+            "type": "quantitative",
+            "axis": {"title": "Number of Airports"}
+        }
+    },
+    "layer": [
+        {
+            "mark": "bar",
+            "encoding": {
+                "tooltip": [
+                    {"field": "Country", "type": "nominal"},
+                    {"field": "Number of Airports", "type": "quantitative"},
+                    {"field": "rank", "type": "ordinal"}
+                ],
+                "size": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": false,
+                        "value": 20
+                    },
+                    "value": 15
+                },
+                "color": {
+                    "condition": [
+                        {
+                            "param": "hover",
+                            "empty": false,
+                            "value": "gold"
+                        },
+                        {
+                            "param": "select",
+                            "empty": false,
+                            "value": "red"
+                        }
+                    ],
+                    "value": "steelblue"
+                }
+            },
+            "params": [
+                {
+                    "name": "hover",
+                    "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+                },
+                {
+                    "name": "select",
+                    "select": {"type": "point", "toggle": "event.shiftKey", "clear": "dblclick"}
+                }
+            ]
+        }
+    ]
+
+}

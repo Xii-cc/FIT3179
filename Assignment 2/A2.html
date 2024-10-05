@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Dot Map</title>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualizations</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    
-    <link rel="stylesheet" href="styles.css">
+    <script src="a2.js" defer></script>
 </head>
-
 <body>
-    <div id="dot_map"></div>
-    <script src="a2.js"></script>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#rotate-globe">Rotate Globe</a></li>
+                <li><a href="#bar-country-airport">Bar Chart</a></li>
+                <li><a href="#proportional-symbol-map">Proportional Symbol Map</a></li>
+                <li><a href="#donut-chart">Donut Chart</a></li>
+                <li><a href="#heat-map">Heat Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="rotate-globe">
+            <h1>Rotate Globe</h1>
+            <div id="rotate_globe_vis"></div>
+        </section>
+        <section id="bar-country-airport">
+            <h1>Bar Chart</h1>
+            <div id="bar_country_airport_vis"></div>
+        </section>
+        <section id="proportional-symbol-map">
+            <h1>Proportional Symbol Map</h1>
+            <div id="proportional_symbol_map_vis"></div>
+        </section>
+        <section id="donut-chart">
+            <h1>Donut Chart</h1>
+            <div id="donut_chart_vis"></div>
+        </section>
+        <section id="heat-map">
+            <h1>Heat Map</h1>
+            <div id="heat_map_vis"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Data Visualizations</p>
+    </footer>
 </body>
-
 </html>

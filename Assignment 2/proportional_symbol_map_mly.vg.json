@@ -13,7 +13,7 @@
         "strokeWidth": 1
       },
       "data": {
-        "url": "../Dataset/ne_10m_admin_1_states_provinces.json",
+        "url": "Dataset/ne_10m_admin_1_states_provinces.json",
         "format": {
           "type": "topojson",
           "feature": "ne_10m_admin_1_states_provinces"
@@ -32,7 +32,7 @@
     {
       "mark": {"type": "rule", "color": "#000", "opacity": 0.35},
       "data": {
-        "url": "../Dataset/my_routes_grouped.csv"
+        "url": "Dataset/my_routes_grouped.csv"
       },
       "transform": [
         {
@@ -41,7 +41,7 @@
         {
           "lookup": "Source_Airport",
           "from": {
-            "data": {"url": "../Dataset/my_airports_new.csv"},
+            "data": {"url": "Dataset/my_airports_new.csv"},
             "key": "iata_code",
             "fields": ["latitude_deg", "longitude_deg"]
           }, "as": ["source_latitude", "source_longitude"]
@@ -49,7 +49,7 @@
         {
           "lookup": "Destination_Airport",
           "from": {
-            "data": {"url": "../Dataset/my_airports_new.csv"},
+            "data": {"url": "Dataset/my_airports_new.csv"},
             "key": "iata_code",
             "fields": ["latitude_deg", "longitude_deg"]
           }, "as": ["destination_latitude", "destination_longitude"]
@@ -71,17 +71,17 @@
     {
       "mark": {"type": "circle"},
       "data": {
-        "url": "../Dataset/my_routes_grouped.csv",
+        "url": "Dataset/my_routes_grouped.csv",
         "format": {
           "type": "csv"
         }
       },
       "transform": [
-        {"aggregate": [{"op": "sum", "field": "count" ,"as": "routes"}], "groupby": ["Source_Airport"]},
+        {"aggregate": [{"op": "sum", "field": "count", "as": "routes"}], "groupby": ["Source_Airport"]},
         {
           "lookup": "Source_Airport",
           "from": {
-            "data": {"url": "../Dataset/my_airports_new.csv"},
+            "data": {"url": "Dataset/my_airports_new.csv"},
             "key": "iata_code",
             "fields": ["latitude_deg", "longitude_deg"]
           }, "as": ["latitude_deg", "longitude_deg"]
@@ -117,5 +117,6 @@
           {"field": "routes", "type": "quantitative"}
         ]
       }
-      }]
     }
+  ]
+}
