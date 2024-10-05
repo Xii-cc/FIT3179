@@ -6,13 +6,13 @@
     "type": "mercator"
   },
   "config": {
-    "background": "#b3d9ff"
+    "background": "#c3f4fe"
   },
   "layer": [
     {
       "mark": {
         "type": "geoshape",
-        "stroke": "slategrey",
+        "stroke": "#fefded",
         "strokeWidth": 1
       },
       "data": {
@@ -26,9 +26,9 @@
         "color": {
           "condition": {
             "test": "datum.properties.geonunit === 'Malaysia'",
-            "value": "#ffcc00"
+            "value": "#aad1ac"
           },
-          "value": "#ddd"
+          "value": "#e8e1c9"
         },
         "opacity": {
           "condition": {
@@ -40,7 +40,7 @@
       }
     },
     {
-      "mark": {"type": "rule", "color": "#000", "opacity": 0.35},
+      "mark": {"type": "rule", "color": "#FFD166", "opacity": 0.35},
       "data": {
         "url": "../Dataset/my_routes_grouped.csv"
       },
@@ -74,7 +74,13 @@
           "field": "count",
           "type": "quantitative",
           "scale": {"range": [1, 8]},
-          "legend": {"title": "Number of Routes"}
+          "legend": {
+            "title": "Number of Routes",
+            "labelColor": "black",
+            "titleColor": "black",
+            "symbolStrokeColor": "black",
+            "symbolFillColor": "black"
+          }
         }
       }
     },
@@ -114,8 +120,14 @@
         "size": {
           "field": "routes",
           "type": "quantitative",
-          "scale": {"range": [1, 500]},
-          "legend": {"title": "Number of Routes"}
+          "scale": {"range": [100, 1000]},
+          "legend": {
+            "title": "Number of Routes",
+            "labelColor": "black",
+            "titleColor": "black",
+            "symbolStrokeColor": "black",
+            "symbolFillColor": "black"
+          }
         },
         "order": {
           "field": "routes",
@@ -125,17 +137,21 @@
           "condition": {
             "param": "hover_airports",
             "empty": false,
-            "value": "gold"
+            "value": "#f3de8a"
           },
           "field": "type",
           "type": "nominal",
           "scale": {
-            "range": ["blue", "red"],
+            "range": ["#548687", "#eb9486"],
             "domain": ["medium_airport", "large_airport"]
           },
           "legend": {
             "title": "Type of Airport",
-            "labelExpr": "{'medium_airport': 'Medium Airport', 'large_airport': 'Large Airport'}[datum.value]"
+            "labelExpr": "{'medium_airport': 'Medium Airport', 'large_airport': 'Large Airport'}[datum.value]",
+            "labelColor": "black",
+            "titleColor": "black",
+            "symbolStrokeColor": "black",
+            "symbolFillColor": "black"
           }
         },
         "opacity": {
