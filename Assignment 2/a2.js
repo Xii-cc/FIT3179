@@ -1,5 +1,5 @@
-var vg_1 = "rotate_globe.vg.json";
-vegaEmbed("#rotate_globe_vis", vg_1).then(function(result) {
+var vg_1 = "dot_flow_map.vg.json";
+vegaEmbed("#dot_flow_map_vis", vg_1).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
 }).catch(console.error);
 

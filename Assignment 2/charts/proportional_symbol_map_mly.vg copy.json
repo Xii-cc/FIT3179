@@ -6,13 +6,13 @@
     "type": "mercator"
   },
   "config": {
-    "background": "#c3f4fe"
+    "background": "#2e353b"
   },
   "layer": [
     {
       "mark": {
         "type": "geoshape",
-        "stroke": "#fefded",
+        "stroke": "#2e353b",
         "strokeWidth": 1
       },
       "data": {
@@ -26,9 +26,9 @@
         "color": {
           "condition": {
             "test": "datum.properties.geonunit === 'Malaysia'",
-            "value": "#aad1ac"
+            "value": "#4a4b4c"
           },
-          "value": "#e8e1c9"
+          "value": "#0e0e0e"
         },
         "opacity": {
           "condition": {
@@ -40,7 +40,7 @@
       }
     },
     {
-      "mark": {"type": "rule", "color": "#FFD166", "opacity": 0.35},
+      "mark": {"type": "rule", "color": "#B45FC3", "opacity": 0.5},
       "data": {
         "url": "../Dataset/my_routes_grouped.csv"
       },
@@ -76,10 +76,10 @@
           "scale": {"range": [1, 8]},
           "legend": {
             "title": "Number of Routes",
-            "labelColor": "black",
-            "titleColor": "black",
-            "symbolStrokeColor": "black",
-            "symbolFillColor": "black"
+            "labelColor": "#F3C95A",
+            "titleColor": "#F3C95A",
+            "symbolStrokeColor": "#F3C95A",
+            "symbolFillColor": "#F3C95A"
           }
         }
       }
@@ -123,10 +123,10 @@
           "scale": {"range": [100, 1000]},
           "legend": {
             "title": "Number of Routes",
-            "labelColor": "black",
-            "titleColor": "black",
-            "symbolStrokeColor": "black",
-            "symbolFillColor": "black"
+            "labelColor": "#F3C95A",
+            "titleColor": "#F3C95A",
+            "symbolStrokeColor": "#F3C95A",
+            "symbolFillColor": "#F3C95A"
           }
         },
         "order": {
@@ -142,16 +142,16 @@
           "field": "type",
           "type": "nominal",
           "scale": {
-            "range": ["#548687", "#eb9486"],
+            "range": ["#f3c95a", "#CF5DB4"],
             "domain": ["medium_airport", "large_airport"]
           },
           "legend": {
             "title": "Type of Airport",
             "labelExpr": "{'medium_airport': 'Medium Airport', 'large_airport': 'Large Airport'}[datum.value]",
-            "labelColor": "black",
-            "titleColor": "black",
-            "symbolStrokeColor": "black",
-            "symbolFillColor": "black"
+            "labelColor": "#F3C95A",
+            "titleColor": "#F3C95A",
+            "symbolStrokeColor": "#F3C95A",
+            "symbolFillColor": "#F3C95A"
           }
         },
         "opacity": {
@@ -169,9 +169,9 @@
       "mark": {
         "type": "text",
         "align": "left",
-        "dx": -25,
+        "dx": -30,
         "fontSize": 8,
-        "color": "black"
+        "color": "#EB8D6F"
       },
       "data": {
         "url": "../Dataset/my_routes_grouped.csv"

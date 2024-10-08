@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <title>Data Visualisation 2</title>
+</head>
+<body onload="showTurnout()">
+    <div id="dashboard">
+        <div id="title">
+            <h1> The Changing Tide : Malaysia's GE15 </h1>
+            <hr>
+        </div>
+        <div id="background">
+            <h2> Background </h2>
+            <p> 
+                Following Barisan Nasional’s historic defeat in the 14th General Election (GE14), 
+                many Malaysians anticipated <br> significant changes in the political landscape.
+                However, the Sheraton Move led to the dissolution of the Pakatan <br> Harapan (PH) government.
+                In the 15th General Election (GE15), a new coalition government emerged due to hung <br> 
+                parliament (No party secure a minimum majority of 112 seats), reshaping the nation’s political dynamics once again.<br>
+                Below, we will study deeply to understand the reason behind hung parliament.
+            </p>
+        </div>
+        <div id="buttons">
+            <button onclick="showElection()">Election Result</button>
+            <button onclick="showTurnout()">Turnout Rate</button>
+            <button onclick="showRace()">Race Distribution</button>
+        </div>
+        <div id="switchButton">
+            <span id="switchButtonLabel">Press to Switch Election:</span>
+            <button id="toggleButton" onclick="toggleElection()">GE14</button>
+
+        </div>
+        <div id="visualisation">
+            <div id="tooltip"></div>
+            <div id="vis"></div>
+            <div id="vis-text"></div>
+            <h2 id="absent_title"> Impact of Absent Votes to the Result of GE15 </h2>
+            <div id="absent_chart">
+                <div id="absent"></div>
+                <p id="absent_text">
+                    In GE15, the number of absent votes have a significant impact on the <br> 
+                    election results. The red bar represents the potential number of seats a <br>
+                    party could have won if the voter's turnout has been higher. If Pakatan <br>
+                    Harapan (PH) has secured more votes, it may have reached the <span class='majority-text'>simple <br>
+                    majority of 112 seats</span> and win the election. This is particularly <br>
+                    important because PH is the <b>only party</b> with a realistic chance of <br>
+                    forming the government on its own with 81 seats won and 61 seats lost <br> due
+                    to low turnout rate in certain parliamentary seats.
+                </p>
+            </div>
+            <h2 id="radar_title">Analysis of Multi-Way Fight</h2>
+            <div id="radar_chart">
+                <p id="radar_text">
+                    In GE15, we can see that the seats no longer contested by a few <br>
+                    number of parties. Due to political changes, many new parties are <br>
+                    formed and contesting in the election. This leads to a multi-way fight <br>
+                    and the votes are split among the parties but not focus on a few <br>
+                    parties like GE14. 
+                </p>
+                <div id="radar"></div>
+            </div>
+            <h2 id="undi18_title">Analysis on the Impact of UNDI-18</h2>
+            <div id="mosaic_chart">
+                <div id="mosaic"></div>
+                <p id="mosaic_text"> 
+                    GE15 introduces two significant changes: UNDI-18 and Automatic Voter <br>
+                    Registration (AVR). <br>
+
+                    UNDI-18 lowers the voting age from 21 to 18, aiming to attract more <br>
+                    young voters. This reform is highly successful, with approximately 1.4 <br>
+                    million votes cast by voters aged 18-20, representing 6.6% of the total votes. <br>
+
+                    AVR, which automatically registers citizens as voters, further simplified <br>
+                    the voting process. As a result, the voter pool increased significantly from <br>
+                    12.3 million to 15.81 million.<br>
+
+                    Despite the increase in registered voters, the turnout rate for GE15 was 74.7%, <br>
+                    a 7.6% drop from GE14's 82.3%. This decline in voter participation is a critical <br>
+                    issue, and the government needs to address it by implementing strategies to <br>
+                    improve future turnout rates.
+                </p>
+            </div>
+            <div id="pyramid_chart">
+                <div id="pop_pyramid_container">
+                    <div id="pop_pyramid"></div>
+                    <p id = "pop_pyramid_text"> 
+                        By closely comparing the number of votes between <span class="ge14-text">GE14</span> and <span class = "ge15-text">GE15</span>, it is observed <br>
+                        that GE15 recorded a significantly <b>higher</b> number of votes across all age groups.<br>
+                        This increase can be attributed to the introduction of <b>AVR</b> and <b>UNDI-18</b>.These <br> 
+                        reforms have made the voting process easier and more accessible to the public,<br>
+                        leading to a <b>substantial rise</b> in the number of eligible voters in <span class = 'ge15-text'>GE15</span>.
+                    </p>
+                </div>
+                <div id="gender_pyramid_container">
+                    <div id="gender_pyramid"></div>
+                    <p id="gender_pyramid_text">
+                        By observing the number of votes across both genders in all age groups, it is <br> 
+                        observed that the distribution is <b>relatively balanced</b>, with the number of votes <br>
+                        being nearly equal between <span class='male-text'>MALE</span> and <span class='female-text'>FEMALE</span>. Notably, the age groups <br>
+                        <b>21-29</b> and <b>30-39</b> stand out with the <b>highest</b> number of votes, indicating strong <br>
+                        political engagement among these younger and middle-aged demographics. 
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script>
+            let currentElection = 'GE15';
+            let currentVisualization = 'election';
+
+            function updateTextContent(text) {
+                const visText = document.getElementById('vis-text');
+                visText.innerHTML = `<p>${text}</p>`;
+            }
+
+            function showElection() {
+                currentVisualization = 'election';
+                const vis = document.getElementById('vis');
+
+                const ge15Url = "json/election_result_GE15.json";
+                const ge14Url = "json/election_result_GE14.json";
+                const ge15DataUrl = 'data/GE15_Winning_Party.csv';
+                const ge14DataUrl = 'data/GE14_Winning_Party.csv';
+
+                const visUrl = currentElection === 'GE15' ? ge15Url : ge14Url;
+                const visDataUrl = currentElection === 'GE15' ? ge15DataUrl : ge14DataUrl;
+    
+                function handleClickGE14(result, dataUrl) 
+                {
+                    const tooltip = document.getElementById('tooltip');
+
+                    result.view.addEventListener('click', (event, item) => 
+                    {
+                        if (item && item.datum && item.datum.properties && item.datum.properties.name) 
+                        {
+                            const stateName = item.datum.properties.name;
+
+                            fetch(dataUrl).then(response => response.text()).then(csvText => {
+                                const rows = csvText.split('\n').map(row => row.trim().split(','));
+                                const headers = rows[0];
+                                const stateIndex = headers.indexOf('STATE');
+                                const stateData = rows.find(row => row[stateIndex] === stateName);
+
+                            if (stateData) 
+                            {
+                                const partyData = headers.slice(2).map((party, index) => ({
+                                    party, seats: stateData[index + 2]
+                                }));
+
+                                const waffleData = [];
+                                partyData.forEach(d => {
+                                for (let i = 0; i < d.seats; i++) {
+                                    waffleData.push({ party: d.party, seats : d.seats });
+                                }
+                            });
+
+                            // Calculate grid positions
+                            const totalSeats = waffleData.length;
+                            const gridSize = Math.ceil(Math.sqrt(totalSeats));
+
+                            waffleData.forEach((d, i) => {
+                                d.row = Math.floor(i / gridSize);
+                                d.col = i % gridSize;
+                            });
+
+                            const waffleSpec = {
+                                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                                "width": 200,
+                                "height": 200,
+                                "title" : {
+                                    "text": `${stateName} Seats Distribution (Total Seats: ${totalSeats})`,
+                                    "fontSize": 14
+                                },
+                                "data": {
+                                    "values": waffleData
+                                },
+                                "mark": {
+                                    "type": "rect",
+                                    "stroke": "black",
+                                    "strokeWidth": 2
+                                },
+                                "encoding": {
+                                    "x": { "field": "col", "type": "ordinal", "axis": null, "band": 0.1 },
+                                    "y": { "field": "row", "type": "ordinal", "axis": null, "band": 0.1 },
+                                    "color": {
+                                        "field": "party",
+                                        "type": "nominal",
+                                        "scale": {
+                                            "domain": ["Barisan Nasional (BN)", "Pakatan Harapan (PH)", "PAS", "Warisan", "Sabah Star", "Independent"],
+                                            "range": ["#0169ba", "#f6441e", "#008c51", "#e6a700", "orange", "#645665"]
+                                        },
+                                        "legend": null
+                                    },
+                                    "tooltip": [
+                                        { "field": "party", "type": "nominal", "title": "Party" },
+                                        { "field": "seats", "type": "quantitative", "title": "Seats Won" }
+                                    ]
+                                },
+                                "config": {}
+                            };
+                            vegaEmbed('#tooltip', waffleSpec, { actions: false });
+                            tooltip.style.display = 'block';
+                            tooltip.style.left = `${event.clientX + 10}px`;
+                            tooltip.style.top = `${event.clientY + 300}px`;
+                            }
+                        });
+                    }
+                });
+
+                    // Hide tooltip when clicking outside
+                    document.addEventListener('click', (e) => 
+                    {
+                        tooltip.style.display = 'none';
+                    });
+                }
+
+                function handleClickGE15(result, dataUrl) 
+                {
+                    const tooltip = document.getElementById('tooltip');
+
+                    result.view.addEventListener('click', (event, item) => 
+                    {
+                        if (item && item.datum && item.datum.properties && item.datum.properties.name) 
+                        {
+                            const stateName = item.datum.properties.name;
+
+                            fetch(dataUrl).then(response => response.text()).then(csvText => {
+                                const rows = csvText.split('\n').map(row => row.trim().split(','));
+                                const headers = rows[0];
+                                const stateIndex = headers.indexOf('STATE');
+                                const stateData = rows.find(row => row[stateIndex] === stateName);
+
+                            if (stateData) 
+                            {
+                                const partyData = headers.slice(2).map((party, index) => ({
+                                    party, seats: stateData[index + 2]
+                                }));
+
+                                const waffleData = [];
+                                partyData.forEach(d => {
+                                for (let i = 0; i < d.seats; i++) {
+                                    waffleData.push({ party: d.party, seats : d.seats });
+                                }
+                            });
+
+                            // Calculate grid positions
+                            const totalSeats = waffleData.length;
+                            const gridSize = Math.ceil(Math.sqrt(totalSeats));
+
+                            waffleData.forEach((d, i) => {
+                                d.row = Math.floor(i / gridSize);
+                                d.col = i % gridSize;
+                            });
+
+                            const waffleSpec = {
+                                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                                "width": 200,
+                                "height": 200,
+                                "title" : {
+                                    "text": `${stateName} Seats Distribution (Total Seats: ${totalSeats})`,
+                                    "fontSize": 14
+                                },
+                                "data": {
+                                    "values": waffleData
+                                },
+                                "mark": {
+                                    "type": "rect",
+                                    "stroke": "black",
+                                    "strokeWidth": 2
+                                },
+                                "encoding": {
+                                    "x": { "field": "col", "type": "ordinal", "axis": null, "band": 0.1 },
+                                    "y": { "field": "row", "type": "ordinal", "axis": null, "band": 0.1 },
+                                    "color": {
+                                        "field": "party",
+                                        "type": "nominal",
+                                        "scale": {
+                                            "domain": ["Barisan Nasional (BN)", "Pakatan Harapan (PH)", "Perikatan Nasional (PN)", "Gabungan Parti Sarawak (GPS)", "Gabungan Rakyat Sabah (GRS)", "Parti Bangsa Malaysia (PBM)","Parti Kesejahteraan Demokratik Masyarakat (KDM)", "Warisan", "Muda", "Independent"],
+                                            "range": ["#0169ba", "#f6441e","#9944b9","#e6a700","#54b3e3","#008c51","#f39c60","#ea7dcd","#950300","#645665"]
+                                        },
+                                        "legend": null
+                                    },
+                                    "tooltip": [
+                                        { "field": "party", "type": "nominal", "title": "Party" },
+                                        { "field": "seats", "type": "quantitative", "title": "Seats Won" },
+                                    ]
+                                },
+                                "config": {}
+                            };
+                            vegaEmbed('#tooltip', waffleSpec, { actions: false });
+                            tooltip.style.display = 'block';
+                            tooltip.style.left = `${event.clientX + 10}px`;
+                            tooltip.style.top = `${event.clientY + 300}px`;
+                            }
+                        });
+                    }
+                });
+
+                    // Hide tooltip when clicking outside
+                    document.addEventListener('click', (e) => 
+                    {
+                        tooltip.style.display = 'none';
+                    });
+                }
+
+                if (currentElection === 'GE15') 
+                {
+                    vegaEmbed('#vis', ge15Url).then(result => {
+                        handleClickGE15(result, ge15DataUrl);
+                    }).catch(console.error);
+                } 
+                else 
+                {
+                    vegaEmbed('#vis', ge14Url).then(result => {
+                        handleClickGE14(result, ge14DataUrl);
+                    }).catch(console.error);
+                }
+                const visText = document.getElementById('vis-text');
+                visText.innerHTML = 
+                `<p>
+                    The 15th General Election (GE15) highlights Selangor, Penang and Kuala Lumpur as 
+                    Malaysia's richest and most economically vibrant states.<br> 
+                    These states are crucial for political parties to secure because of their substantial contribution
+                    to Malaysia’s economy, higher urbanization and <br> 
+                    more affluent voter base. Fortunately, the coalition government manage to secure these states.
+                    Unlike coalition government, Perikatan <br>
+                    Nasional (PN) only manages to secure states which are more rural and less economically vibrant although 
+                    winning the 2nd highest number of seats.
+                </p>`;
+                
+            }
+            function showTurnout() 
+            {
+                currentVisualization = 'turnout';
+                const vis = document.getElementById('vis');
+
+                const ge15Url = `json/turnout_rate_GE15.json`;
+                const ge14Url = `json/turnout_rate_GE14.json`;
+
+                const visUrl = currentElection === 'GE15' ? ge15Url : ge14Url;
+
+                vegaEmbed('#vis', visUrl).then(function(result) {}).catch(console.error);
+                const visText = document.getElementById('vis-text');
+                visText.innerHTML = 
+                `<p>
+                    The turnout rate from GE14 to GE15 has been a decreasing trend. This is due to the reason of the 
+                    introduction of Automatic Voter Registration (A<br>
+                    VR) and UNDI-18. Because of that, the group of individuals who are not engaged in politics will 
+                    decline their votes, resulting in a lower turnout <br>
+                    rate. Thus, many seats are won by a small margin, leading to a hung parliament.
+                </p>`;
+            }
+
+            function showAbsent()
+            {
+                currentVisualization = 'absent';
+                const vis = document.getElementById('vis');
+
+                const ge15Url = `json/absent_GE15.json`;
+                const ge14Url = `json/absent_GE14.json`;
+
+                const visUrl = currentElection === 'GE15' ? ge15Url : ge14Url;
+
+                vegaEmbed('#vis', visUrl).then(function(result) {}).catch(console.error);
+            }
+
+            function showRace() {
+                currentVisualization = 'race';
+                const vis = document.getElementById('vis');
+
+                const ge15Url = `json/race_distribution_GE15.json`;
+                const ge14Url = `json/race_distribution_GE14.json`;
+
+                const visUrl = currentElection === 'GE15' ? ge15Url : ge14Url;
+
+                // Function to handle click event for GE14 visualization
+                function handleClickRaceGE14(result) 
+                {
+                    const tooltip = document.getElementById('tooltip');
+                    
+                    result.view.addEventListener('mouseover', (event, item) => 
+                    {
+                        if (item && item.datum && item.datum.PARLIAMENTARY_NAME)
+                        {   
+                            const data = item.datum;
+
+                            const raceData = [
+                                { race: 'Malay', percentage: data.Malay },
+                                { race: 'Chinese', percentage: data.Chinese },
+                                { race: 'Indian', percentage: data.Indian },
+                                { race: 'Orang Asli', percentage: data['Orang Asli'] },
+                                { race: 'Bumiputera Sabah', percentage: data['Bumiputera Sabah'] },
+                                { race: 'Bumiputera Sarawak', percentage: data['Bumiputera Sarawak'] },
+                                { race: 'Others', percentage: data.Others }
+                            ];
+
+                            const pieSpec = {
+                                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                                "title": `${data.PARLIAMENTARY_NAME} Race Distribution`,
+                                "width": 200,
+                                "height": 200,
+                                "data": { "values": raceData },
+                                "mark": "arc",
+                                "encoding": {
+                                "theta": { "field": "percentage", "type": "quantitative" },
+                                "color": {
+                                    "field": "race",
+                                    "type": "nominal",
+                                    "scale": {
+                                    "domain": ["Malay", "Chinese", "Indian", "Orang Asli", "Bumiputera Sabah", "Bumiputera Sarawak", "Others"],
+                                    "range": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2"]
+                                    }
+                                },
+                                "tooltip": [
+                                    { "field": "race", "type": "nominal", "title": "Race" },
+                                    { "field": "percentage", "type": "quantitative", "title": "Percentage" }
+                                ]
+                                },
+                                "config": {}
+                            };
+
+                            vegaEmbed('#tooltip', pieSpec, { actions: false })
+                            tooltip.style.display = 'block';
+                            tooltip.style.left = `${event.clientX + 10}px`;
+                            tooltip.style.top = `${event.clientY + 10}px`;
+                        }
+                    });
+
+                    document.addEventListener('click', (e) => 
+                    {
+                        tooltip.style.display = 'none';
+                    });
+                }   
+
+                // Function to handle click event for GE15 visualization
+                function handleClickRaceGE15(result) 
+                {
+                    const tooltip = document.getElementById('tooltip');
+
+                    result.view.addEventListener('mouseover', (event, item) => 
+                    {
+                        if (item && item.datum && item.datum.PARLIAMENTARY_NAME) 
+                        {
+                            const data = item.datum;
+                            const raceData = [
+                                { race: 'Malay', percentage: data.Malay },
+                                { race: 'Chinese', percentage: data.Chinese },
+                                { race: 'Indian', percentage: data.Indian },
+                                { race: 'Orang Asli', percentage: data['Orang Asli'] },
+                                { race: 'Bumiputera Sabah', percentage: data['Bumiputera Sabah'] },
+                                { race: 'Bumiputera Sarawak', percentage: data['Bumiputera Sarawak'] },
+                                { race: 'Others', percentage: data.Others }
+                            ];
+
+                            const pieSpec = {
+                                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                                "title": `${data.PARLIAMENTARY_NAME} Race Distribution`,
+                                "width": 200,
+                                "height": 200,
+                                "data": { "values": raceData },
+                                "mark": "arc",
+                                "encoding": {
+                                "theta": { "field": "percentage", "type": "quantitative" },
+                                "color": {
+                                    "field": "race",
+                                    "type": "nominal",
+                                    "scale": {
+                                    "domain": ["Malay", "Chinese", "Indian", "Orang Asli", "Bumiputera Sabah", "Bumiputera Sarawak", "Others"],
+                                    "range": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2"]
+                                    }
+                                },
+                                "tooltip": [
+                                    { "field": "race", "type": "nominal", "title": "Race" },
+                                    { "field": "percentage", "type": "quantitative", "title": "Percentage" }
+                                ]
+                                }, "config": {}
+                            };
+
+                            vegaEmbed('#tooltip', pieSpec, { actions: false });
+                            tooltip.style.display = 'block';
+                            tooltip.style.left = `${event.clientX + 10}px`;
+                            tooltip.style.top = `${event.clientY +700}px`;
+                            }
+                        });
+
+                        // Hide tooltip when clicking outside
+                        document.addEventListener('click', (e) => {
+                                tooltip.style.display = 'none';
+                        });
+                }
+
+                if (currentElection === 'GE15') 
+                {
+                    vegaEmbed('#vis', ge15Url).then(result => {
+                        handleClickRaceGE15(result);
+                    }).catch(console.error);
+                } 
+                else 
+                {
+                    vegaEmbed('#vis', ge14Url).then(result => {
+                        handleClickRaceGE14(result);
+                    }).catch(console.error);
+                }
+
+                const visText = document.getElementById('vis-text');
+                visText.innerHTML = 
+                `<p>
+                    By looking at the race distribution of each seats, we can see that seats with a higher percentage of 
+                    Malay voters and more rural areas 
+                    are more <br>
+                    likely to be won by Perikatan Nasional (PN). However, seats with a higher percentage of Malay 
+                    voters and more urban areas are more <br> 
+                    likely to be won by Pakatan Harapan (PH). This reflects the political landscape of Malaysia, 
+                    where the rural areas are more conservative <br> 
+                    and the urban area are more open to changes.
+                </p>`;
+            }
+            
+            function toggleElection() 
+            {
+                currentElection = currentElection === 'GE15' ? 'GE14' : 'GE15';
+                document.getElementById('toggleButton').innerText = currentElection === 'GE15' ? 'GE14' : 'GE15';
+                if (currentVisualization === 'election') {
+                    showElection();
+                } else if (currentVisualization === 'turnout') {
+                    showTurnout();
+                } else if (currentVisualization === 'absent') {
+                    showAbsent();
+                } else if (currentVisualization === 'race') {
+                    showRace();
+                }
+            }
+            vegaEmbed('#radar', "json/radar_chart.json").then(function(result) {}).catch(console.error); 
+            vegaEmbed('#absent', "json/proportional.json").then(function(result) {}).catch(console.error);
+            vegaEmbed('#mosaic', "json/mosaic.json").then(function(result) {}).catch(console.error);
+            vegaEmbed('#pop_pyramid', "json/population_pyramid.json").then(function(result) {}).catch(console.error); 
+            // vegaEmbed('#gender_pyramid', "json/gender_pyramid.json").then(function(result) {}).catch(console.error);
+        </script>
+    </div>
+</body>
+</html>

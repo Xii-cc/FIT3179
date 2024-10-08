@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": "Top 10 Country with the Most Airports",
     "data": {
-        "url": "Dataset/airports.csv"
+        "url": "./Dataset/airports.csv"
     },
     "transform": [
         {
@@ -52,15 +52,14 @@
                         {
                             "param": "hover",
                             "empty": false,
-                            "value": "gold"
+                            "value": "#f7dba7"
                         },
                         {
-                            "param": "select",
-                            "empty": false,
-                            "value": "red"
+                            "test": "datum.Country == 'Malaysia'",
+                            "value": "#9dd9d2"
                         }
                     ],
-                    "value": "steelblue"
+                    "value": "#eb8d6f"
                 }
             },
             "params": [
