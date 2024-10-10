@@ -1,12 +1,28 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
-  "height": 400,
+  "width": 1000,
+  "height": 500,
   "projection": {
     "type": "mercator"
   },
   "config": {
-    "background": "#2e353b"
+    "background": null,
+    "text": {
+        "color": "#d1d4ce"
+    },
+    "axis": {
+        "labelColor": "#d1d4ce",
+        "titleColor": "#d1d4ce"
+    },
+    "title": {
+        "color": "#d1d4ce"
+    },
+    "legend": {
+        "titleColor": "#d1d4ce",
+        "labelColor": "#d1d4ce",
+        "labelFontSize": 12,
+        "titleFontSize": 12
+    }
   },
   "layer": [
     {
@@ -76,8 +92,6 @@
           "scale": {"range": [1, 8]},
           "legend": {
             "title": "Number of Routes",
-            "labelColor": "#F3C95A",
-            "titleColor": "#F3C95A",
             "symbolStrokeColor": "#F3C95A",
             "symbolFillColor": "#F3C95A"
           }
@@ -101,7 +115,8 @@
             "key": "iata_code",
             "fields": ["latitude_deg", "longitude_deg", "type", "name", "region_name"]
           }, "as": ["latitude_deg", "longitude_deg", "type", "name", "region_name"]
-        }
+        },
+        {"calculate": "datum.type == 'medium_airport' ? 'Medium Airport' : datum.type == 'large_airport' ? 'Large Airport' : datum.type", "as": "Airport Type"}
       ],
       "params": [
         {
@@ -110,7 +125,7 @@
         },
         {
           "name": "select_type",
-          "select": {"type": "point", "fields": ["type"]},
+          "select": {"type": "point", "fields": ["Airport Type"]},
           "bind": "legend"
         }
       ],
@@ -123,8 +138,6 @@
           "scale": {"range": [100, 1000]},
           "legend": {
             "title": "Number of Routes",
-            "labelColor": "#F3C95A",
-            "titleColor": "#F3C95A",
             "symbolStrokeColor": "#F3C95A",
             "symbolFillColor": "#F3C95A"
           }
@@ -139,17 +152,14 @@
             "empty": false,
             "value": "#f3de8a"
           },
-          "field": "type",
+          "field": "Airport Type",
           "type": "nominal",
           "scale": {
             "range": ["#f3c95a", "#CF5DB4"],
-            "domain": ["medium_airport", "large_airport"]
+            "domain": ["Medium Airport", "Large Airport"]
           },
           "legend": {
             "title": "Type of Airport",
-            "labelExpr": "{'medium_airport': 'Medium Airport', 'large_airport': 'Large Airport'}[datum.value]",
-            "labelColor": "#F3C95A",
-            "titleColor": "#F3C95A",
             "symbolStrokeColor": "#F3C95A",
             "symbolFillColor": "#F3C95A"
           }
@@ -161,7 +171,8 @@
         "tooltip": [
           {"field": "name", "type": "nominal", "title": "Airport Name"},
           {"field": "region_name", "type": "nominal", "title": "Region"},
-          {"field": "routes", "type": "quantitative", "title": "Number of Routes"}
+          {"field": "routes", "type": "quantitative", "title": "Number of Routes"},
+          {"field": "Airport Type", "type": "nominal", "title": "Type of Airport"}
         ]
       }
     },
@@ -169,9 +180,9 @@
       "mark": {
         "type": "text",
         "align": "left",
-        "dx": -30,
-        "fontSize": 8,
-        "color": "#EB8D6F"
+        "dx": -40,
+        "fontSize": 12,
+        "color": "#d1d4ce"
       },
       "data": {
         "url": "./Dataset/my_routes_grouped.csv"
@@ -188,7 +199,8 @@
             "key": "iata_code",
             "fields": ["latitude_deg", "longitude_deg", "type"]
           }, "as": ["latitude_deg", "longitude_deg", "type"]
-        }
+        },
+        {"calculate": "datum.type == 'medium_airport' ? 'Medium Airport' : datum.type == 'large_airport' ? 'Large Airport' : datum.type", "as": "Airport Type"}
       ],
       "encoding": {
         "latitude": {"field": "latitude_deg"},

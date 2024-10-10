@@ -3,31 +3,51 @@
     "title": "Monthly Passenger Traffic Heat Map",
     "width": 500,
     "height": 350,
+    "config": {
+        "background": null,
+        "text": {
+            "color": "#d1d4ce"
+        },
+        "axis": {
+            "labelColor": "#d1d4ce",
+            "titleColor": "#d1d4ce",
+            "domain": false
+        },
+        "title": {
+            "color": "#d1d4ce"
+        },
+        "legend": {
+            "titleColor": "#d1d4ce",
+            "labelColor": "#d1d4ce"
+        },
+        "view": {
+                "strokeWidth": 0,
+                "step": 13
+            }
+    },
     "data": {
         "url": "./Dataset/monthly.csv"
     },
     "transform": [
         {
+            "calculate": "toNumber(datum.International)",
+            "as": "International"
+        },
+        {
             "window": [
                 {
                     "op": "rank",
-                    "field": "Total",
+                    "field": "International",
                     "as": "Rank"
                 }
             ],
             "groupby": ["Year"],
-            "sort": [{"field": "Total", "order": "descending"}]
+            "sort": [{"field": "International", "order": "descending"}]
+        },
+        {
+            "filter": "datum.Month != null"
         }
     ],
-    "config": {
-        "view": {
-            "strokeWidth": 0,
-            "step": 13
-        },
-        "axis": {
-            "domain": false
-        }
-    },
     "mark": "rect",
     "encoding": {
         "x": {
@@ -73,9 +93,9 @@
                 "title": "Month"
             },
             {
-                "field": "Total",
+                "field": "International",
                 "type": "quantitative",
-                "title": "Total Passenger Traffic"
+                "title": "International Passenger Traffic"
             },
             {
                 "field": "Rank",

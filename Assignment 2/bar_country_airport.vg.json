@@ -1,9 +1,26 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": "Top 10 Country with the Most Airports",
+    "title": {
+        "text": "Top 10 Country with the Most Airports"
+    },
+    "config": {
+        "text": {
+            "color": "#d1d4ce"
+        },
+        "axis": {
+            "labelColor": "#d1d4ce",
+            "titleColor": "#d1d4ce",
+            "labelFontSize": 12
+        },
+        "title": {
+            "color": "#d1d4ce"
+        }
+    },
     "data": {
         "url": "./Dataset/airports.csv"
     },
+    "width": 350,
+    "background": null,
     "transform": [
         {
             "aggregate": [{"op": "count", "as": "Number of Airports"}],

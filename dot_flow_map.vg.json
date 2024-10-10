@@ -1,0 +1,145 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1200,
+  "height": 600,
+  "projection": {
+    "type": "equalEarth"
+  },
+  "background": "#2e353b",
+  "params": [
+    {
+      "name": "opacity_slider",
+      "value": 0.5,
+      "bind": {"input": "range", "min": 0, "max": 1, "step" : 0.01,
+        "name": "Opacity"}
+    }
+  ],
+  "layer": [
+    {
+      "data": {"sphere": true},
+      "mark": {"type": "geoshape", "fill": "#2e353b"}
+    },
+    {
+      "data": {
+        "name": "world",
+        "url": "./Dataset/ne_110m_admin_0_countries.json",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "mark": {"type": "geoshape", "stroke": "#2e353b", "strokeWidth": 0.5},
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.properties.NAME === 'Malaysia'",
+            "value": "#f7dba7"
+          },
+          "value": "#0e0e0e"
+        }
+      }
+    },
+    {
+      "data": {
+        "name": "airports",
+        "url": "./Dataset/airports.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {"calculate": "datum.Longitude", "as": "longitude"},
+        {"calculate": "datum.Latitude", "as": "latitude"},
+        {"calculate": "datum.Altitude", "as": "altitude"}
+      ],
+      "mark": {"type": "circle", "color": "white", "opacity": 0.75},
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "size": {
+          "condition": [
+            {
+              "test": "datum.IATA === 'KUL' || datum.IATA === 'LHR' || datum.IATA === 'FRA' || datum.IATA === 'CDG' || datum.IATA === 'AMS'",
+              "value": 1000
+            },
+            {
+              "param": "hover",
+              "empty": false,
+              "value": 500
+            }
+          ],
+          "value": 6
+        },
+        "color": {
+          "condition": {
+            "param": "hover",
+            "empty": false,
+            "value": "#ff9ae7"
+          },
+          "field": "Altitude",
+          "type": "quantitative",
+          "scale": {
+            "range": [
+              "#f3c95a",
+              "#eb8d6f",
+              "#cf5db4",
+              "#B45FC3",
+              "#9861d1"
+            ]
+          },
+          "title": "Altitude (ft)",
+          "legend": {
+            "orient": "none",
+            "titleColor": "#F3C95A",
+            "labelColor": "#F3C95A",
+            "legendX": 50,
+            "legendY": 350,
+            "labelFontSize": 12
+          }
+        },
+        "opacity": {
+          "condition": [{
+            "test": "datum.IATA === 'KUL'",
+            "value": 1
+          },
+          {
+            "param": "opacity_slider",
+            "value": {"expr": "opacity_slider"}
+          }]
+        },
+        "tooltip": [
+          {"field": "Name", "type": "nominal"},
+          {"field": "City", "type": "nominal"},
+          {"field": "Country", "type": "nominal"},
+          {"field": "Altitude", "type": "quantitative"}
+        ]
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "./Dataset/mly_route.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",
+          "as": "geojson"
+        },
+        {
+          "calculate": "round(datum.Distance_km)",
+          "as": "rounded_distance_km"
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "#9dd9d2", "strokeWidth": 2, "fill": null},
+      "encoding": {
+        "shape": {"field": "geojson", "type": "geojson"},
+        "tooltip": [
+          {"field": "Source_Airport", "type": "nominal", "title": "Source Airport"},
+          {"field": "Destination_Airport", "type": "nominal", "title": "Destination Airport"},
+          {"field": "rounded_distance_km", "type": "quantitative", "title": "Distance (km)"}
+        ]
+      }
+    }
+  ]
+}

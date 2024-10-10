@@ -3,20 +3,185 @@
 <head>
     <title>FIT3179 Homework Week 10</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
+    <script src="a2.js" defer></script>
 </head>
 
 <body>
-    <div id="dot_map"></div>
-    <script src="homework_week_10.js"></script>
+    <header class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <h3 class="pure-menu-heading">Malaysia Aviation</h3>
+    </header>
+    <div id="dashboard" class="pure-g">
+        <div class="pure-u-1-1">
+            <div id="dot_flow_map_container" class="splash-container">
+                <div class="splash">
+                    <div id="dot_flow_map_vis"></div>
+                </div>
+            </div>
 
-    <div id="proportional_symbol_map"></div>
-    <script src="homework_week_10.js"></script>
+        <div class="content-wrapper">
+            <div class="pure-g container">
+                <div class="pure-u-1-2">
+                    <div id="overview_desc_container">
+                        <div class="l-box">
+                            <h1 class="content-head is-center">Overview</h1>
+                            <p>
+                                This dashboard presents key insights into the aviation landscape in malaysia,
+                                including flight routes, airport counts, and the longest direct flights from
+                                Kuala Lumpur International Airport (KLIA). The visualisation is structured into
+                                different sections, providing a comprehensive view of the country's aviation network.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div id="dot_flow_map_desc_container">
+                        <div class="l-box">
+                            <h1 class="content-head">Explore The World: Longest Direct Flight From KLIA</h1>
+                            <p>
+                                The dot map with routes shows the top five longest direct flights departing from KLIA.
+                            </p>
+                            <div id="dot_flow_map_desc_body">
+                                <p>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1920px-Flag_of_the_United_Kingdom_%281-2%29.svg.png" alt="UK Flag" style="width: 50px; height: auto; vertical-align: middle; margin-right: 5px;">
+                                    London Heathrow (LHR): 10605km
+                                </p>
+                                <p>
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/1920px-Flag_of_France.svg.png" alt="France Flag" style="width: 50px; height: auto; vertical-align: middle; margin-right: 5px;">
+                                    Charles de Gaulle Airport (CDG): 10442km
+                                </p>
+                                <p>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/1920px-Flag_of_the_Netherlands.svg.png" alt="France Flag" style="width: 50px; height: auto; vertical-align: middle; margin-right: 5px;">
+                                    Amsterdam Airport Schiphol (AMS): 10237km
+                                </p>
+                                <p>
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/1920px-Flag_of_Germany.svg.png" alt="France Flag" style="width: 50px; height: auto; vertical-align: middle; margin-right: 5px;">
+                                    Frankfurt Airport (FRA): 9998km
+                                </p>
+                                <p>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/1920px-Flag_of_New_Zealand.svg.png" alt="France Flag" style="width: 50px; height: auto; vertical-align: middle; margin-right: 5px;">
+                                    Auckland Airport (AKL): 8703km
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="content"> -->
+            <div id="bar_country_airport_container" class="pure-g container">
+                <div class="pure-u-1-2">
+                    <div id="bar_country_airport_dv">
+                        <div id="bar_country_airport_vis"></div>
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div id="bar_country_airport_desc">
+                        <h2 class="content-head is-center">Country's Airport Count</h2>
+                        <p>
+                            The bar chart compares the number of airports in different countries.
+                            The United States tops the list with 1,512 airports, followed by Canada, Austria,
+                            and others. Malaysia is ranked 41st globally, with a total of 40 airports.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="proportional_symbol_map_container" class="pure-g container">
+                <h1 class="content-head is-center pure-u-1-1">Airports' Connectivity in Malaysia</h1>
+                
+                <div id="proportional_symbol_map_dv" class="pure-u-1-1">
+                    <div id="proportional_symbol_map_vis"></div>
+                </div>
+
+                <div id="proportional_symbol_map_desc" class="pure-u-1-1">
+                    <div class="pure-u-1-2 column">
+                        <p>
+                            This proportional symbol map showcases the connectivity between airports within Malaysia.
+                            The size of each circle represents the number of domestic routes available from the airport,
+                            with larger circles indicating more extensive connectivity.
+                        </p>
+
+                        <p>
+                            Lines between the airports highlight the flight routes, with bolder lines representing airports with more extensive
+                            domestic routes.
+                        </P>
+                    </div>
+                    <div class="pure-u-1-2 column">
+                        <p>
+                            The key airports featured include:
+                        </p>
+                        <p>
+                            Kuala Lumpur International Airport (KLIA): The largest and most connected airport.
+                        </p>
+                        <p>
+                            Kuching International Airport (KCH), Penang International Airport (PEN), and Kota Kinabalu International Airport (BKI)
+                            also show notable connectivity.
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div id="radial_plot_container" class="pure-g container">
+                <div class="pure-u-1-2">
+                    <div id="radial_plot_vis"></div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div id="radial_plot_desc">
+                        <h2 class="content-head is-center">Malaysia's Airport Type</h2>
+                        <p>
+                            This radial plot shows the number of airports in Malaysia based on their type.
+                            The majority of the airports are small airports, followed by medium airports and heliports.
+                            There is only one large airport in Malaysia, which is KLIA.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="heat_map_container" class="pure-g container">
+                
+                <div class="pure-u-1-1">
+                    <h2 class="content-head is-center">Monthly International Passenger Traffic Heat Map in Malaysia</h2>
+                </div>
+                <div id="heat_map_dv" class="pure-u-1-1">
+                    <div id="heat_map_vis"></div>
+                </div>
+                <div id="heat_map_desc" class="pure-u-1-1">
+                    <div class="pure-u-1-2 column">
+                        This heat map shows the monthly passenger traffic in Malaysia.
+                        Each cell represents the rank of the month based on the number of passengers in each year.
+                        The darker the cell, the higher the rank. We can observe that there are three peaks in the heat map.
+                    </div>
+                    <div class="pure-u-1-2 column">
+                        The first peak is in March, followed by July to August, and the last peak is in December.
+                        These peaks are due to the school holidays and festive seasons.
+                        There is a significant drop after February of 2020 due to the COVID-19 pandemic.
+                        The international passenger traffic slowly recovers after the lockdown (see 2020).
+                    </div>
+            </div>
+        </div>
+
+        <footer id="metadata_container">
+            <div class="pure-g">
+                <div class="pure-u-1-1">
+                    <p>Created by: En Xi Liew | October 2024</p>
+                    <p>All data are for academic purposes only and may not reflect the latest statistics.</p>
+                </div>
+                <div class="pure-u-1-2">
+                    <p>Data Source: Malaysian Aviation Commission (MAVCOM), 2023</p>
+                </div>
+                <div class="pure-u-1-2">
+                    <p>Image Source: Wikimedia Commons</p>
+            </div>
+        </footer>
+    </div>
 </body>
 
 </html>

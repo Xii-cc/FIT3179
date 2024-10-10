@@ -1,12 +1,32 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 1200,
+    "width": 600,
     "height": 600,
     "title": "Radial Plot Showing the Malaysian Airports",
     "data": {
-        "url": "../Dataset/my_airports_new.csv"
+        "url": "../Dataset/my_airports_cleaned.csv"
+    },
+    "config": {
+        "background": null,
+        "text": {
+            "color": "#d1d4ce"
+        },
+        "axis": {
+            "labelColor": "#d1d4ce",
+            "titleColor": "#d1d4ce"
+        },
+        "title": {
+            "color": "#d1d4ce"
+        },
+        "legend": {
+            "titleColor": "#d1d4ce",
+            "labelColor": "#d1d4ce"
+        }
     },
     "transform": [
+        {
+            "filter": "datum.type !== 'closed'"
+        },
         {
             "aggregate": [
                 {"op": "count", "as": "count"}
@@ -27,21 +47,8 @@
             },
             "encoding": {
                 "theta": {"field": "count", "type": "quantitative", "stack": true},
-                "radius": {"field": "count", "scale": {"type": "sqrt", "zero": true, "rangeMin": 20}},
+                "radius": {"field": "count", "scale": {"type": "sqrt", "zero": true, "rangeMin": 100, "rangeMax": 200}},
                 "color": {"field": "type", "type": "nominal", "legend": {"title": "Airport Type", "orient": "top"}},
-                "order": {"field": "count", "type": "quantitative", "sort": "descending"}
-            }
-        },
-        {
-            "mark": {
-                "type": "text",
-                "radiusOffset": 10
-            },
-            "encoding": {
-                "text": {"field": "type_count", "type": "nominal"},
-                "theta": {"field": "count", "type": "quantitative", "stack": true},
-                "radius": {"value": 120},
-                "color": {"value": "black"},
                 "order": {"field": "count", "type": "quantitative", "sort": "descending"}
             }
         }

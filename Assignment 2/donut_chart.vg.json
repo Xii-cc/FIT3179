@@ -2,9 +2,26 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 600,
     "height": 400,
+    "config": {
+        "background": null,
+        "text": {
+            "color": "#d1d4ce"
+        },
+        "axis": {
+            "labelColor": "#d1d4ce",
+            "titleColor": "#d1d4ce"
+        },
+        "title": {
+            "color": "#d1d4ce"
+        },
+        "legend": {
+            "titleColor": "#d1d4ce",
+            "labelColor": "#d1d4ce"
+        }
+    },
     "title": "Radial Plot Showing the Number of Different Types of Airports in Malaysia",
     "data": {
-        "url": "Dataset/my_airports_new.csv"
+        "url": "Dataset/my_airports_cleaned.csv"
     },
     "transform": [
         {

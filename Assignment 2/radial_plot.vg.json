@@ -1,0 +1,106 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 425,
+    "height": 425,
+    "title": "Radial Plot Showing the Malaysian Airports",
+    "data": {
+        "url": "./Dataset/my_airports_cleaned.csv"
+    },
+    "config": {
+        "background": null,
+        "text": {
+            "color": "#d1d4ce",
+            "size": 12
+        },
+        "axis": {
+            "labelColor": "#d1d4ce",
+            "titleColor": "#d1d4ce",
+            "domain": false
+        },
+        "title": {
+            "color": "#d1d4ce"
+        },
+        "legend": {
+            "titleColor": "#d1d4ce",
+            "labelColor": "#d1d4ce",
+            "orient": "bottom",
+            "symbolStrokeColor": null,
+            "titleAlign": "center",
+            "titleAnchor": "middle",
+            "labelFontSize": 12,
+            "titleFontSize": 12
+        },
+        "view": {
+                "strokeWidth": 0,
+                "step": 13
+            }
+    },
+    "transform": [
+        {
+            "filter": "datum.type !== 'closed'"
+        },
+        {
+            "lookup": "type",
+            "from": {
+                "data": {
+                    "values": [
+                        {"type": "heliport", "type_display": "Heliport"},
+                        {"type": "small_airport", "type_display": "Small Airport"},
+                        {"type": "balloonport", "type_display": "Balloonport"},
+                        {"type": "medium_airport", "type_display": "Medium Airport"},
+                        {"type": "large_airport", "type_display": "Large Airport"}
+                    ]
+                },
+                "key": "type",
+                "fields": ["type_display"]
+            }
+        },
+        {
+            "aggregate": [
+                {"op": "count", "as": "count"}
+            ],
+            "groupby": ["type_display"]
+        },
+        {
+            "calculate": "datum.type_display + ' (' + datum.count + ')'",
+            "as": "type_count"
+        }
+    ],
+    "layer": [
+        {
+            "mark": {
+                "type": "arc",
+                "innerRadius": 20,
+                "stroke": "#fff"
+            },
+            "encoding": {
+                "theta": {"field": "count", "type": "quantitative", "stack": true},
+                "radius": {
+                    "field": "count",
+                    "scale": {
+                        "type": "sqrt",
+                        "zero": true,
+                        "rangeMin": 50,
+                        "rangeMax": 200
+                    }
+                },
+                "color": {
+                    "field": "type_display",
+                    "type": "nominal",
+                    "legend": {
+                        "title": "Airport Category"
+                    },
+                    "scale": {
+                        "domain": ["Small Airport", "Medium Airport", "Heliport","Balloonport", "Large Airport"],
+                        "range": ["#f3c95a", "#eb8d6f", "#cf5db4", "#b45fc3", "#9861d1"]
+                    }
+                },
+                "tooltip": [
+                    {"field": "type_display", "type": "nominal", "title": "Airport Type"},
+                    {"field": "count", "type": "quantitative", "title": "Number"}
+                ],
+                "order": {"field": "count", "type": "quantitative", "sort": "ascending"}
+            }
+        }
+    ]
+}

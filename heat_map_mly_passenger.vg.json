@@ -1,0 +1,107 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Monthly Passenger Traffic Heat Map",
+    "width": 500,
+    "height": 350,
+    "config": {
+        "background": null,
+        "text": {
+            "color": "#d1d4ce"
+        },
+        "axis": {
+            "labelColor": "#d1d4ce",
+            "titleColor": "#d1d4ce",
+            "domain": false
+        },
+        "title": {
+            "color": "#d1d4ce"
+        },
+        "legend": {
+            "titleColor": "#d1d4ce",
+            "labelColor": "#d1d4ce"
+        },
+        "view": {
+                "strokeWidth": 0,
+                "step": 13
+            }
+    },
+    "data": {
+        "url": "./Dataset/monthly.csv"
+    },
+    "transform": [
+        {
+            "calculate": "toNumber(datum.International)",
+            "as": "International"
+        },
+        {
+            "window": [
+                {
+                    "op": "rank",
+                    "field": "International",
+                    "as": "Rank"
+                }
+            ],
+            "groupby": ["Year"],
+            "sort": [{"field": "International", "order": "descending"}]
+        },
+        {
+            "filter": "datum.Month != null"
+        }
+    ],
+    "mark": "rect",
+    "encoding": {
+        "x": {
+            "field": "Month",
+            "type": "ordinal",
+            "title": "Month",
+            "sort": null
+        },
+        "y": {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+        },
+        "color": {
+            "field": "Rank",
+            "type": "ordinal",
+            "title": "Monthly Rank",
+            "scale": {
+                "domain": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                "range": ["#4c2e6b",
+                    "#5a3b7c",
+                    "#68488d",
+                    "#76569e",
+                    "#8463af",
+                    "#9270c0",
+                    "#a07dd1",
+                    "#ae8ae2",
+                    "#bc97f3",
+                    "#caa4ff",
+                    "#d8b1ff",
+                    "#e6beff"]
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+            },
+            {
+                "field": "Month",
+                "type": "ordinal",
+                "title": "Month"
+            },
+            {
+                "field": "International",
+                "type": "quantitative",
+                "title": "International Passenger Traffic"
+            },
+            {
+                "field": "Rank",
+                "type": "ordinal",
+                "title": "Monthly Rank"
+            }
+        ]
+    }
+}

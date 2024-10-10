@@ -10,7 +10,7 @@
     {
       "name": "opacity_slider",
       "value": 0.5,
-      "bind": {"input": "range", "min": 0, "max": 1, "step": 0.01,
+      "bind": {"input": "range", "min": 0, "max": 1, "step" : 0.01,
         "name": "Opacity"}
     }
   ],
@@ -88,7 +88,8 @@
             "titleColor": "#F3C95A",
             "labelColor": "#F3C95A",
             "legendX": 50,
-            "legendY": 350
+            "legendY": 350,
+            "labelFontSize": 12
           }
         },
         "opacity": {
@@ -124,6 +125,10 @@
         {
           "calculate": "{'type': 'LineString', 'coordinates': [[datum.Source_Longitude, datum.Source_Latitude], [datum.Destination_Longitude, datum.Destination_Latitude]]}",
           "as": "geojson"
+        },
+        {
+          "calculate": "round(datum.Distance_km)",
+          "as": "rounded_distance_km"
         }
       ],
       "mark": {"type": "geoshape", "stroke": "#9dd9d2", "strokeWidth": 2, "fill": null},
@@ -132,7 +137,7 @@
         "tooltip": [
           {"field": "Source_Airport", "type": "nominal", "title": "Source Airport"},
           {"field": "Destination_Airport", "type": "nominal", "title": "Destination Airport"},
-          {"field": "Distance_km", "type": "quantitative", "title": "Distance (km)"}
+          {"field": "rounded_distance_km", "type": "quantitative", "title": "Distance (km)"}
         ]
       }
     }
