@@ -140,6 +140,7 @@ body {
 
 #heat_map_desc {
     padding-top: 20px;
+    align-items:first baseline;
 }
 
 .column {
