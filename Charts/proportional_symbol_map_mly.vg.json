@@ -60,7 +60,7 @@
       }
     },
     {
-      "mark": {"type": "rule", "color": "#B45FC3", "opacity": 0.5},
+      "mark": {"type": "rule", "color": "#B45FC3", "opacity": 0.75},
       "data": {
         "url": "./Dataset/my_routes_grouped.csv"
       },

@@ -1,6 +1,6 @@
-Source_Airport,Destination_Airport,Equipment,Source_Latitude,Source_Longitude,Destination_Latitude,Destination_Longitude,Distance_km
-KUL,LHR,380,2.74558,101.71,51.47060,-0.461941,10605.487
-KUL,CDG,380,2.74558,101.71,49.01280,2.550000,10441.963
-KUL,AMS,772,2.74558,101.71,52.30860,4.763890,10236.639
-KUL,FRA,772,2.74558,101.71,50.03333,8.570556,9997.515
-KUL,AKL,772,2.74558,101.71,-37.00810,174.792007,8703.353
+Source_Airport,Destination_Airport,Equipment,Source_Latitude,Source_Longitude,Destination_Latitude,Destination_Longitude,Distance_km,Airport_Name,image,Destination_Country
+KUL,LHR,380,2.74558,101.71,51.47060,-0.461941,10605.487,London Heathrow Airport,https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1920px-Flag_of_the_United_Kingdom_%281-2%29.svg.png,United Kingdom
+KUL,CDG,380,2.74558,101.71,49.01280,2.550000,10441.963,Charles de Gaulle International Airport,https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/1920px-Flag_of_France.svg.png,France
+KUL,AMS,772,2.74558,101.71,52.30860,4.763890,10236.639,Amsterdam Airport Schiphol,https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/1920px-Flag_of_the_Netherlands.svg.png,Netherlands
+KUL,FRA,772,2.74558,101.71,50.03333,8.570556,9997.515,Frankfurt am Main International Airport,https://upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/1920px-Flag_of_Germany.svg.png,Germany
+KUL,AKL,772,2.74558,101.71,-37.00810,174.792007,8703.353,Auckland International Airport,https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/1920px-Flag_of_New_Zealand.svg.png,New Zealand
