@@ -10,7 +10,9 @@
         "axis": {
             "labelColor": "#d1d4ce",
             "titleColor": "#d1d4ce",
-            "labelFontSize": 12
+            "labelFontSize": 12,
+            "domain": false,
+            "gridOpacity": 0.3
         },
         "title": {
             "color": "#d1d4ce"
@@ -19,7 +21,8 @@
     "data": {
         "url": "./Dataset/airports.csv"
     },
-    "width": 350,
+    "width": 375,
+    "height": 350,
     "background": null,
     "transform": [
         {
@@ -39,12 +42,12 @@
             "field": "Country",
             "type": "nominal",
             "sort": {"field": "Number of Airports", "order": "descending"},
-            "axis": {"title": "Country"}
+            "axis": {"title": "Country", "domain": false}
         },
         "x": {
             "field": "Number of Airports",
             "type": "quantitative",
-            "axis": {"title": "Number of Airports"}
+            "axis": {"title": "Number of Airports", "domain": false}
         }
     },
     "layer": [
@@ -60,9 +63,9 @@
                     "condition": {
                         "param": "hover",
                         "empty": false,
-                        "value": 20
+                        "value": 25
                     },
-                    "value": 15
+                    "value": 20
                 },
                 "color": {
                     "condition": [
@@ -73,10 +76,24 @@
                         },
                         {
                             "test": "datum.Country == 'Malaysia'",
-                            "value": "#9dd9d2"
+                            "value": "#F3C95A"
                         }
                     ],
                     "value": "#eb8d6f"
+                },
+                "opacity": {
+                    "condition": [
+                        {
+                            "param": "hover",
+                            "empty": false,
+                            "value": 1
+                        },
+                        {
+                            "test": "datum.Country == 'Malaysia'",
+                            "value": 1
+                        }
+                    ],
+                    "value": 0.30
                 }
             },
             "params": [

@@ -16,13 +16,20 @@
 
 <body>
     <header class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <h3 class="pure-menu-heading">Malaysia Aviation</h3>
+        <h3 class="pure-menu-heading">Explore The World.</h3>
     </header>
     <div id="dashboard" class="pure-g">
         <div class="pure-u-1-1">
             <div id="dot_flow_map_container" class="splash-container">
                 <div class="splash">
-                    <div id="dot_flow_map_vis"></div>
+                    <div id="dot_flow_map_vis">
+                        <div id="controls">
+                            <label for="opacity_slider">Opacity</label>
+                            <input type="range" id="opacity_slider" name="opacity_slider" min="0" max="1" step="0.01" value="0.5">
+                            <label for="toggle_routes_images">Show Routes</label>
+                            <input type="checkbox" id="toggle_routes_images" name="toggle_routes_images" checked>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -44,9 +51,10 @@
                 <div class="pure-u-1-2">
                     <div id="dot_flow_map_desc_container">
                         <div class="l-box">
-                            <h1 class="content-head">Explore The World: Longest Direct Flight From KLIA</h1>
+                            <h1 class="content-head">Longest Direct Flight From KLIA</h1>
                             <p>
-                                The dot map with routes shows the top five longest direct flights departing from KLIA.
+                                The dot map with routes shows the airports in the world and the top five longest direct flights departing from KLIA.
+                                We can observe that <span class="highlight1 bold">Europe</span> <span class="highlight1"> has the highest density of airports. </span><span class="highlight2 bold">The west coast of the United States</span><span class="highlight2"> also have a high concentration of airports.</span>
                             </p>
                             <div id="dot_flow_map_desc_body">
                                 <p>
@@ -85,9 +93,9 @@
                     <div id="bar_country_airport_desc">
                         <h2 class="content-head is-center">Country's Airport Count</h2>
                         <p>
-                            The bar chart compares the number of airports in different countries.
-                            The United States tops the list with 1,512 airports, followed by Canada, Austria,
-                            and others. Malaysia is ranked 41st globally, with a total of 40 airports.
+                            There are currently <span class="highlight3 bold">7,699</span> active airports in the world.
+                            <span class="highlight1 bold">The United States</span> tops the list with <span class="highlight1 bold">1,512 airports</span>, followed by Canada, Austria,
+                            and others. <span class="highlight2 bold">Malaysia</span> is ranked <span class="highlight2 bold">41st</span> globally, with a total of <span class="highlight2 bold">40 airports</span>.
                         </p>
                     </div>
                 </div>
@@ -103,9 +111,8 @@
                 <div id="proportional_symbol_map_desc" class="pure-u-1-1">
                     <div class="pure-u-1-2 column">
                         <p>
-                            This proportional symbol map showcases the connectivity between airports within Malaysia.
-                            The size of each circle represents the number of domestic routes available from the airport,
-                            with larger circles indicating more extensive connectivity.
+                            This proportional symbol map showcases the connectivity between large and medium airports within Malaysia.
+                            Small airports are not shown in this visualisation due to their limited connectivity.
                         </p>
 
                         <p>
@@ -118,11 +125,11 @@
                             The key airports featured include:
                         </p>
                         <p>
-                            Kuala Lumpur International Airport (KLIA): The largest and most connected airport.
+                            <span class="highlight1 bold">Kuala Lumpur International Airport (KLIA):</span> The largest and most connected airport.
                         </p>
                         <p>
-                            Kuching International Airport (KCH), Penang International Airport (PEN), and Kota Kinabalu International Airport (BKI)
-                            also show notable connectivity.
+                            <span class="highlight2 bold">Kuching International Airport (KCH), Penang International Airport (PEN),</span> and <span class="highlight2 bold">Kota Kinabalu International Airport (BKI)</span>
+                            also show notable connectivity due to their strategic locations to travel destinations.
                         </p>
                     </div>
                 </div>
@@ -135,11 +142,11 @@
                 </div>
                 <div class="pure-u-1-2">
                     <div id="radial_plot_desc">
-                        <h2 class="content-head is-center">Malaysia's Airport Type</h2>
+                        <h2 class="content-head is-center">Malaysia's Airport Types</h2>
                         <p>
-                            This radial plot shows the number of airports in Malaysia based on their type.
-                            The majority of the airports are small airports, followed by medium airports and heliports.
-                            There is only one large airport in Malaysia, which is KLIA.
+                            There are a total of <span class="highlight1 bold">137</span> airports in Malaysia.
+                            The majority of the airports are <span class="highlight2 bold">small airports,</span> followed by medium airports and heliports.
+                            There is only one large airport in Malaysia, which is <span class="highlight3 bold">Kuala Lumpur International Airport (KLIA).</span>
                         </p>
                     </div>
                 </div>
@@ -148,7 +155,7 @@
             <div id="heat_map_container" class="pure-g container">
                 
                 <div class="pure-u-1-1">
-                    <h2 class="content-head is-center">Monthly International Passenger Traffic Heat Map in Malaysia</h2>
+                    <h2 class="content-head is-center">Monthly International Passenger Traffic in Malaysia</h2>
                 </div>
                 <div id="heat_map_dv" class="pure-u-1-1">
                     <div id="heat_map_vis"></div>
@@ -157,15 +164,15 @@
                     <div class="pure-u-1-2 column">
                         This heat map shows the monthly passenger traffic in Malaysia.
                         Each cell represents the rank of the month based on the number of passengers in each year.
-                        The darker the cell, the higher the rank. We can observe that there are three peaks in the heat map.
+                        The darker the cell, the higher the rank. We can observe that there are <span class="highlight1 bold">3 peaks</span> in the heat map.
                     </div>
                     <div class="pure-u-1-2 column">
                         <p>
-                            The first peak is in March, followed by July to August, and the last peak is in December.
+                            The first peak is in <span class="highlight2 bold">March,</span> followed by <span class="highlight2 bold">July to August,</span> and the last peak is in <span class="highlight2 bold">December.</span>
                             These peaks are due to the school holidays and festive seasons.
                         </p>
                         <p>
-                            There is a significant drop after February of 2020 due to the COVID-19 pandemic.
+                            There is a <span class="highlight3 bold">significant drop after February of 2020</span> due to the COVID-19 pandemic.
                             The international passenger traffic slowly recovers after the lockdown (see 2022).
                         </p>
                     </div>
@@ -178,11 +185,17 @@
                     <p>Created by: En Xi Liew | October 2024</p>
                     <p>All data are for academic purposes only and may not reflect the latest statistics.</p>
                 </div>
-                <div class="pure-u-1-2">
-                    <p>Data Source: Malaysian Aviation Commission (MAVCOM), 2023</p>
+                <div class="pure-u-1-2" id="datasource1">
+                    <h3 class = "content-head">Data Source:</h3>
+                    <p>1. Airports & Flight Routes (published in 2022), Author: Elmo Allistair, https://www.kaggle.com/datasets/elmoallistair/airlines-airport-and-routes</p>
+                    <p>2. Countries, States & Provinces (published in 2024), Author: Natural Earth, https://www.naturalearthdata.com/downloads/</p>
+                    <p>3. Airports in Malaysia (published in 2020), Author: Humanitarian Data Exchange, https://data.humdata.org/dataset/8278caf4-966a-450e-bc1b-c68169c01ec7</p>
+                    <p>4. Monthly Malaysia Passenger Traffic (published in 2024), Author: Malaysian Aviation Commission (MAVCOM), https://www.mavcom.my/en/resources/industry-data/</p>
                 </div>
-                <div class="pure-u-1-2">
-                    <p>Image Source: Wikimedia Commons</p>
+                <div class="pure-u-1-2" id="datasource2">
+                    <h3 class = "content-head">Image Source:</h3>
+                    <P>Flags: Wikimedia Commons, https://commons.wikimedia.org/wiki/Main_Page</P>
+                    <P>Location Pointer: SVG Repo (published in 2024), https://www.svgrepo.com/svg/326696/location-outline</P>
             </div>
         </footer>
     </div>

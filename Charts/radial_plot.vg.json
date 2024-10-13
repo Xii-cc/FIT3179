@@ -1,8 +1,8 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 425,
+    "width": 500,
     "height": 425,
-    "title": "Radial Plot Showing the Malaysian Airports",
+    "title": "Malaysian Airport Types",
     "data": {
         "url": "./Dataset/my_airports_cleaned.csv"
     },
@@ -71,7 +71,7 @@
             "mark": {
                 "type": "arc",
                 "innerRadius": 20,
-                "stroke": "#fff"
+                "stroke": "#2e353b"
             },
             "encoding": {
                 "theta": {"field": "count", "type": "quantitative", "stack": true},
@@ -100,6 +100,143 @@
                     {"field": "count", "type": "quantitative", "title": "Number"}
                 ],
                 "order": {"field": "count", "type": "quantitative", "sort": "ascending"}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "x": 0,
+                "y": 200
+            },
+            "data": {"values": [{"airport": "Small Airport"}]},
+            "encoding": {
+                "text": {"field": "airport", "type": "nominal"},
+                "color": {"value": "#d1d4ce"},
+                "size": {"value": 12}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "x": 425,
+                "y": 300
+            },
+            "data": {"values": [{"airport": "Medium Airport"}]},
+            "encoding": {
+                "text": {"field": "airport", "type": "nominal"},
+                "color": {"value": "#d1d4ce"},
+                "size": {"value": 12}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "x": 400,
+                "y": 125
+            },
+            "data": {"values": [{"airport": "Heliport"}]},
+            "encoding": {
+                "text": {"field": "airport", "type": "nominal"},
+                "color": {"value": "#d1d4ce"},
+                "size": {"value": 12}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "x": 350,
+                "y": 75
+            },
+            "data": {"values": [{"airport": "Balloonport"}]},
+            "encoding": {
+                "text": {"field": "airport", "type": "nominal"},
+                "color": {"value": "#d1d4ce"},
+                "size": {"value": 12}
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "x": 300,
+                "y": 50
+            },
+            "data": {"values": [{"airport": "Large Airport"}]},
+            "encoding": {
+                "text": {"field": "airport", "type": "nominal"},
+                "color": {"value": "#d1d4ce"},
+                "size": {"value": 12}
+            }
+        },
+        {
+            "mark": {
+                "type": "rule",
+                "color": "#d1d4ce"
+            },
+            "encoding": {
+                "x": {"value": 40},
+                "x2": {"value": 100},
+                "y": {"value": 200},
+                "y2": {"value": 200}
+            }
+        },
+        {
+            "mark": {
+                "type": "rule",
+                "color": "#d1d4ce"
+            },
+            "encoding": {
+                "x": {"value": 350},
+                "y": {"value": 275},
+                "x2": {"value": 380},
+                "y2": {"value": 300}
+            }
+        },
+        {
+            "mark": {
+                "type": "rule",
+                "color": "#d1d4ce"
+            },
+            "encoding": {
+                "x": {"value": 350},
+                "y": {"value": 150},
+                "x2": {"value": 375},
+                "y2": {"value": 125}
+            }
+        },
+        {
+            "mark": {
+                "type": "rule",
+                "color": "#d1d4ce"
+            },
+            "encoding": {
+                "x": {"value": 275},
+                "y": {"value": 75},
+                "x2": {"value": 315},
+                "y2": {"value": 75}
+            }
+        },
+        {
+            "mark": {
+                "type": "rule",
+                "color": "#d1d4ce"
+            },
+            "encoding": {
+                "x": {"value": 255},
+                "y": {"value": 150},
+                "x2": {"value": 275},
+                "y2": {"value": 75}
+            }
+        },
+        {
+            "mark": {
+                "type": "rule",
+                "color": "#d1d4ce"
+            },
+            "encoding": {
+                "x": {"value": 250},
+                "y": {"value": 150},
+                "x2": {"value": 262},
+                "y2": {"value": 50}
             }
         }
     ]

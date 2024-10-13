@@ -3,7 +3,7 @@
   "width": 800,
   "height": 400,
   "projection": {
-    "type": "mercator"
+    "type": "mercator", "scale": 1950, "center": [108, 4]
   },
   "config": {
     "background": null,
@@ -25,6 +25,10 @@
     }
   },
   "layer": [
+    {
+      "data": {"sphere": true},
+      "mark": {"type": "geoshape", "fill": "#252B30"}
+    },
     {
       "mark": {
         "type": "geoshape",
@@ -135,7 +139,7 @@
         "size": {
           "field": "routes",
           "type": "quantitative",
-          "scale": {"range": [100, 1000]},
+          "scale": {"range": [10, 1000]},
           "legend": {
             "title": "Number of Routes",
             "symbolStrokeColor": "#F3C95A",
@@ -206,6 +210,48 @@
         "latitude": {"field": "latitude_deg"},
         "longitude": {"field": "longitude_deg"},
         "text": {"field": "Source_Airport"}
+      }
+    },
+    {
+      "mark": {
+          "type": "text",
+          "x": 75,
+          "y": 300,
+          "align": "left"
+      },
+      "data": {"values": [{"text": "KLIA (KUL) has"}]},
+      "encoding": {
+          "text": {"field": "text", "type": "nominal"},
+          "color": {"value": "#d1d4ce"},
+          "size": {"value": 12}
+      }
+    },
+    {
+      "mark": {
+          "type": "text",
+          "x": 75,
+          "y": 315,
+          "align": "left"
+      },
+      "data": {"values": [{"text": "the most domestic"}]},
+      "encoding": {
+          "text": {"field": "text", "type": "nominal"},
+          "color": {"value": "#d1d4ce"},
+          "size": {"value": 12}
+      }
+    },
+    {
+      "mark": {
+          "type": "text",
+          "x": 75,
+          "y": 330,
+          "align": "left"
+      },
+      "data": {"values": [{"text": "communication routes"}]},
+      "encoding": {
+          "text": {"field": "text", "type": "nominal"},
+          "color": {"value": "#d1d4ce"},
+          "size": {"value": 12}
       }
     }
   ]
