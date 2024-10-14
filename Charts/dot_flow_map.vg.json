@@ -359,7 +359,7 @@
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
-      "data": {"values": [{"text": "geographical constraints."}]},
+      "data": {"values": [{"text": "economical and population constraints."}]},
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
