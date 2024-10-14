@@ -45,7 +45,7 @@
     {
       "data": {
         "name": "world",
-        "url": "../Dataset/ne_110m_admin_0_countries.json",
+        "url": "./Dataset/ne_110m_admin_0_countries.json",
         "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
       },
       "mark": {"type": "geoshape", "stroke": "#2e353b", "strokeWidth": 0.5},
@@ -64,7 +64,7 @@
     {
       "data": {
         "name": "airports",
-        "url": "../Dataset/airports.csv",
+        "url": "./Dataset/airports.csv",
         "format": {"type": "csv"}
       },
       "transform": [
@@ -139,7 +139,7 @@
     },
     {
       "data": {
-        "url": "../Dataset/mly_route.csv",
+        "url": "./Dataset/mly_route.csv",
         "format": {"type": "csv"}
         
       },
@@ -166,7 +166,7 @@
     },
     {
       "data": {
-        "url": "../Dataset/mly_route.csv",
+        "url": "./Dataset/mly_route.csv",
         "format": {"type": "csv"}
       },
       "transform": [
@@ -178,7 +178,7 @@
       ],
       "mark": {
         "type": "image",
-        "url": "../Images/location.png",
+        "url": "./Images/location.png",
         "width": 30,
         "height": 30,
         "align": "center",
@@ -204,7 +204,7 @@
       ],
       "mark": {
         "type": "image",
-        "url": "../Images/location.png",
+        "url": "./Images/location.png",
         "width": 30,
         "height": 30,
         "align": "center",
