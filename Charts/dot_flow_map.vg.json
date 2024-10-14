@@ -3,9 +3,9 @@
   "autosize": {
     "type": "fit",
     "contains": "padding"
-},
-"width": "container",
-"height": "container",
+  },
+  "width": "container",
+  "height": "container",
   "title": "World Wide Airports with 5 Longest Direct Flights from KLIA",
   "config": {
     "title": {

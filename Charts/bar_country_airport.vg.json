@@ -21,8 +21,12 @@
     "data": {
         "url": "./Dataset/airports.csv"
     },
-    "width": 375,
-    "height": 350,
+    "autosize": {
+    "type": "fit",
+    "contains": "padding"
+    },
+    "width": "container",
+    "height": "container",
     "background": null,
     "transform": [
         {

@@ -1,7 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
-  "height": 400,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "width": "container",
+  "height": "container",
   "title": "Proportional Symbol Map of Malaysian Airports' Connectivity",
   "projection": {
     "type": "mercator", "scale": 1950, "center": [108, 4]
@@ -226,52 +230,64 @@
     {
       "mark": {
           "type": "text",
-          "x": 75,
-          "y": 300,
           "align": "left"
       },
-      "data": {"values": [{"text": "KLIA (KUL) has"}]},
+      "data": {"values": {
+        "text": "KLIA (KUL) has",
+        "latitude": 1,
+        "longitude":97.5
+      }},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 14}
+          "size": {"value": 14},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "longitude": {"field": "longitude", "type": "quantitative"}
       }
     },
     {
       "mark": {
           "type": "text",
-          "x": 75,
-          "y": 320,
           "align": "left"
       },
-      "data": {"values": [{"text": "the most domestic"}]},
+      "data": {"values": [{
+        "text": "the most domestic",
+        "latitude": 0.5,
+        "longitude":97.5
+      }]},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 14}
+          "size": {"value": 14},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "longitude": {"field": "longitude", "type": "quantitative"}
       }
     },
     {
       "mark": {
           "type": "text",
-          "x": 75,
-          "y": 340,
           "align": "left"
       },
-      "data": {"values": [{"text": "communication routes"}]},
+      "data": {"values": [{
+        "text": "communication routes",
+        "latitude": 0,
+        "longitude":97.5
+      }]},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 14}
+          "size": {"value": 14},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "longitude": {"field": "longitude", "type": "quantitative"}
       }
     },
     {
@@ -298,35 +314,43 @@
     {
       "mark": {
           "type": "text",
-          "x": 350,
-          "y": 40,
           "align": "left"
       },
-      "data": {"values": [{"text": "Strategic locations to"}]},
+      "data": {"values": [{
+        "text": "Strategic locations to",
+        "latitude": 8.5,
+        "longitude": 106.5
+      }]},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 14}
+          "size": {"value": 14},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "longitude": {"field": "longitude", "type": "quantitative"}
       }
     },
     {
       "mark": {
           "type": "text",
-          "x": 350,
-          "y": 60,
           "align": "left"
       },
-      "data": {"values": [{"text": "travel destinations"}]},
+      "data": {"values": [{
+        "text": "travel destinations",
+        "latitude": 8,
+        "longitude": 106.5
+      }]},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 14}
+          "size": {"value": 14},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "longitude": {"field": "longitude", "type": "quantitative"}
       }
     },
     {

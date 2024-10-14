@@ -1,8 +1,12 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": "Monthly Passenger Traffic Heat Map",
-    "width": 500,
-    "height": 350,
+    "autosize": {
+        "type": "fit",
+        "contains": "padding"
+    },
+    "width": "container",
+    "height": "container",
     "config": {
         "background": null,
         "text": {
