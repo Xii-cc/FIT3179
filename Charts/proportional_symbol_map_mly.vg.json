@@ -24,6 +24,16 @@
         "titleFontSize": 12
     }
   },
+  "params": [
+    {
+      "name": "show_annotations",
+      "value": true,
+      "bind": {
+        "input": "checkbox",
+        "name": "Show Annotations"
+      }
+    }
+  ],
   "layer": [
     {
       "data": {"sphere": true},
@@ -220,38 +230,144 @@
           "align": "left"
       },
       "data": {"values": [{"text": "KLIA (KUL) has"}]},
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 12}
+          "size": {"value": 14}
       }
     },
     {
       "mark": {
           "type": "text",
           "x": 75,
-          "y": 315,
+          "y": 320,
           "align": "left"
       },
       "data": {"values": [{"text": "the most domestic"}]},
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 12}
+          "size": {"value": 14}
       }
     },
     {
       "mark": {
           "type": "text",
           "x": 75,
-          "y": 330,
+          "y": 340,
           "align": "left"
       },
       "data": {"values": [{"text": "communication routes"}]},
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
       "encoding": {
           "text": {"field": "text", "type": "nominal"},
           "color": {"value": "#d1d4ce"},
-          "size": {"value": 12}
+          "size": {"value": 14}
+      }
+    },
+    {
+      "data": {"values":
+        [
+          {"startx": 101.695854, "starty": 2.747954, "endx":100.370269, "endy": 1.320071}
+        ]
+      },
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "#d1d4ce",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {"field": "startx", "type": "quantitative"},
+        "longitude2": {"field": "endx", "type": "quantitative"},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "latitude2": {"field": "endy", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {
+          "type": "text",
+          "x": 350,
+          "y": 40,
+          "align": "left"
+      },
+      "data": {"values": [{"text": "Strategic locations to"}]},
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
+      "encoding": {
+          "text": {"field": "text", "type": "nominal"},
+          "color": {"value": "#d1d4ce"},
+          "size": {"value": 14}
+      }
+    },
+    {
+      "mark": {
+          "type": "text",
+          "x": 350,
+          "y": 60,
+          "align": "left"
+      },
+      "data": {"values": [{"text": "travel destinations"}]},
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
+      "encoding": {
+          "text": {"field": "text", "type": "nominal"},
+          "color": {"value": "#d1d4ce"},
+          "size": {"value": 14}
+      }
+    },
+    {
+      "data": {"values":
+        [
+          {"startx": 100.2770004, "starty": 5.297140121, "endx":106.3, "endy": 8.5}
+        ]
+      },
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "#d1d4ce",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {"field": "startx", "type": "quantitative"},
+        "longitude2": {"field": "endx", "type": "quantitative"},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "latitude2": {"field": "endy", "type": "quantitative"}
+      }
+    },
+    {
+      "data": {"values":
+        [
+          {"startx": 116.0510025, "starty": 5.937210083, "endx":110.5, "endy": 8.5}
+        ]
+      },
+      "transform": [
+        {"filter": {"param": "show_annotations"}}
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "#d1d4ce",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {"field": "startx", "type": "quantitative"},
+        "longitude2": {"field": "endx", "type": "quantitative"},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "latitude2": {"field": "endy", "type": "quantitative"}
       }
     }
   ]

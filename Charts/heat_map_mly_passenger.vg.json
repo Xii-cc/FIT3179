@@ -54,7 +54,10 @@
             "field": "Month",
             "type": "ordinal",
             "title": "Month",
-            "sort": null
+            "sort": null,
+            "axis": {
+                "labelAngle": 0
+            }
         },
         "y": {
             "field": "Year",

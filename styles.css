@@ -172,6 +172,23 @@ body {
     color: #d1d4ce;
 }
 
+#proportional_symbol_map_vis .vega-bindings {
+    position: absolute;
+    bottom: 20px;
+    right: 150px;
+    justify-content: right;
+    align-items: right;
+    text-align: left;
+    padding-right: 30px;
+}
+
+#proportional_symbol_map_vis input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: #F3C95A;
+} 
+
 #radial_plot_desc {
     text-align: justify;
     padding-left: 15%;

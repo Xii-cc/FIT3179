@@ -73,6 +73,10 @@
                 "innerRadius": 20,
                 "stroke": "#2e353b"
             },
+            "params": [{
+                "name": "hover",
+                "select": {"type": "point", "on": "mouseover", "clear": "mouseout"}
+            }],
             "encoding": {
                 "theta": {"field": "count", "type": "quantitative", "stack": true},
                 "radius": {
@@ -99,16 +103,29 @@
                     {"field": "type_display", "type": "nominal", "title": "Airport Type"},
                     {"field": "count", "type": "quantitative", "title": "Number"}
                 ],
-                "order": {"field": "count", "type": "quantitative", "sort": "ascending"}
+                "order": {"field": "count", "type": "quantitative", "sort": "ascending"},
+                "opacity": {
+                    "condition": [
+                        {
+                            "param": "hover",
+                            "empty": false,
+                            "value": 1
+                        },
+                        {
+                            "test": "datum.type_display === 'Small Airport'",
+                            "value": 1
+                        }
+                    ], "value": 0.5
+                }
             }
         },
         {
             "mark": {
                 "type": "text",
-                "x": 0,
+                "x": -5,
                 "y": 200
             },
-            "data": {"values": [{"airport": "Small Airport"}]},
+            "data": {"values": [{"airport": "Small Airport 56.3%"}]},
             "encoding": {
                 "text": {"field": "airport", "type": "nominal"},
                 "color": {"value": "#d1d4ce"},
@@ -118,10 +135,11 @@
         {
             "mark": {
                 "type": "text",
-                "x": 425,
-                "y": 300
+                "x": 385,
+                "y": 300,
+                "align": "left"
             },
-            "data": {"values": [{"airport": "Medium Airport"}]},
+            "data": {"values": [{"airport": "Medium Airport 23.0%"}]},
             "encoding": {
                 "text": {"field": "airport", "type": "nominal"},
                 "color": {"value": "#d1d4ce"},
@@ -131,10 +149,11 @@
         {
             "mark": {
                 "type": "text",
-                "x": 400,
-                "y": 125
+                "x": 380,
+                "y": 125,
+                "align": "left"
             },
-            "data": {"values": [{"airport": "Heliport"}]},
+            "data": {"values": [{"airport": "Heliport 19.0%"}]},
             "encoding": {
                 "text": {"field": "airport", "type": "nominal"},
                 "color": {"value": "#d1d4ce"},
@@ -144,10 +163,11 @@
         {
             "mark": {
                 "type": "text",
-                "x": 350,
-                "y": 75
+                "x": 320,
+                "y": 75,
+                "align": "left"
             },
-            "data": {"values": [{"airport": "Balloonport"}]},
+            "data": {"values": [{"airport": "Balloonport 0.8%"}]},
             "encoding": {
                 "text": {"field": "airport", "type": "nominal"},
                 "color": {"value": "#d1d4ce"},
@@ -157,10 +177,11 @@
         {
             "mark": {
                 "type": "text",
-                "x": 300,
-                "y": 50
+                "x": 270,
+                "y": 50,
+                "align": "left"
             },
-            "data": {"values": [{"airport": "Large Airport"}]},
+            "data": {"values": [{"airport": "Large Airport 0.8%"}]},
             "encoding": {
                 "text": {"field": "airport", "type": "nominal"},
                 "color": {"value": "#d1d4ce"},
@@ -173,7 +194,7 @@
                 "color": "#d1d4ce"
             },
             "encoding": {
-                "x": {"value": 40},
+                "x": {"value": 55},
                 "x2": {"value": 100},
                 "y": {"value": 200},
                 "y2": {"value": 200}
