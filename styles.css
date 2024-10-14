@@ -231,11 +231,18 @@ h3 {
     height: 350px;
 }
 
+#radial_plot_vis {
+    justify-content: center;
+    align-items: center;
+    width: 114.5%;
+    height: 500px;
+}
+
 #proportional_symbol_map_vis {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 400px;
+    height: 425px;
 }
 
 #radial_plot_desc {

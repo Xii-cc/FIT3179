@@ -1,7 +1,11 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 500,
-    "height": 425,
+    "autosize": {
+        "type": "fit",
+        "contains": "padding"
+    },
+    "width": "container",
+    "height": "container",
     "title": "Malaysian Airport Types",
     "data": {
         "url": "./Dataset/my_airports_cleaned.csv"
@@ -135,7 +139,7 @@
         {
             "mark": {
                 "type": "text",
-                "x": 385,
+                "x": 365,
                 "y": 300,
                 "align": "left"
             },
@@ -206,9 +210,9 @@
                 "color": "#d1d4ce"
             },
             "encoding": {
-                "x": {"value": 350},
+                "x": {"value": 340},
                 "y": {"value": 275},
-                "x2": {"value": 380},
+                "x2": {"value": 360},
                 "y2": {"value": 300}
             }
         },
