@@ -315,16 +315,25 @@ a {
     #dot_flow_map_vis {
         height: 80vh; /* Adjust height for medium screens */
     }
+    #radii_plot_vis {
+        height: 60vh; /* Adjust height for medium screens */
+    }
 }
 
 @media (max-width: 768px) {
     #dot_flow_map_vis {
         height: 70vh; /* Adjust height for small screens */
     }
+    #radii_plot_vis {
+        height: 50vh; /* Adjust height for small screens */
+    }
 }
 
 @media (max-width: 480px) {
     #dot_flow_map_vis {
         height: 60vh; /* Adjust height for extra small screens */
+    }
+    #radii_plot_vis {
+        height: 40vh; /* Adjust height for extra small screens */
     }
 }

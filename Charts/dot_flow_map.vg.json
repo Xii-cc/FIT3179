@@ -113,7 +113,7 @@
             "titleColor": "#F3C95A",
             "labelColor": "#F3C95A",
             "legendX": 50,
-            "legendY": 350,
+            "legendY": 0,
             "labelFontSize": 12
           }
         },
