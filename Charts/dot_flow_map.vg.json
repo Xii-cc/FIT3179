@@ -1,7 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1200,
-  "height": 600,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+},
+"width": "container",
+"height": "container",
   "title": "World Wide Airports with 5 Longest Direct Flights from KLIA",
   "config": {
     "title": {
@@ -108,7 +112,7 @@
             "orient": "none",
             "titleColor": "#F3C95A",
             "labelColor": "#F3C95A",
-            "legendX": -50,
+            "legendX": 50,
             "legendY": 350,
             "labelFontSize": 12
           }
@@ -222,21 +226,25 @@
     },
     {
       "data": {
-        "values": {"text": "The west cost of the United States"}
+        "values": {
+          "text": "The west cost of the United States",
+          "startx": -150.827594,
+          "starty": 5.015873
+        }
       },
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "mark": {
         "type": "text",
-        "x": 75,
-        "y": 280,
         "align": "left"
       },
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
-        "size": {"value": 14}
+        "size": {"value": 14},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "longitude": {"field": "startx", "type": "quantitative"}
       }
     },
     {
@@ -249,45 +257,59 @@
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
-      "data": {"values": [{"text": "has high concentration of airports."}]},
+      "data": {"values": {
+        "text": "has high concentration of airports.",
+        "startx": -150.827594,
+        "starty": 0.015873
+      }},
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
-        "size": {"value": 14}
+        "size": {"value": 14},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "longitude": {"field": "startx", "type": "quantitative"}
       }
     },
     {
       "mark": {
         "type": "text",
-        "x": 750,
-        "y": 60,
         "align": "left"
       },
-      "data": {"values": [{"text": "Europe has the highest"}]},
+      "data": {"values": {
+        "text": "Europe has the highest",
+        "startx": 58.827594,
+        "starty": 58.015873
+      }},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
-        "size": {"value": 14}
+        "size": {"value": 14},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "longitude": {"field": "startx", "type": "quantitative"}
       }
     },
     {
       "mark": {
         "type": "text",
-        "x": 750,
-        "y": 80,
         "align": "left"
       },
-      "data": {"values": [{"text": "density of airports."}]},
+      "data": {"values": {
+        "text": "density of airports.",
+        "startx": 55.827594,
+        "starty": 53.015873
+      }},
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
-        "size": {"value": 14}
+        "size": {"value": 14},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "longitude": {"field": "startx", "type": "quantitative"}
       }
     },
     {
@@ -335,35 +357,43 @@
     {
       "mark": {
         "type": "text",
-        "x": 750,
-        "y": 480,
         "align": "left"
       },
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
-      "data": {"values": [{"text": "Less density of airports due to"}]},
+      "data": {"values": {
+        "text": "Less density of airports due to",
+        "startx": 50.918500,
+        "starty": -42.521543
+      }},
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
-        "size": {"value": 14}
+        "size": {"value": 14},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "longitude": {"field": "startx", "type": "quantitative"}
       }
     },
     {
       "mark": {
         "type": "text",
-        "x": 750,
-        "y": 500,
         "align": "left"
       },
       "transform": [
         {"filter": {"param": "show_annotations"}}
       ],
-      "data": {"values": [{"text": "economical and population constraints."}]},
+      "data": {"values": {
+        "text": "economical and population constraints.",
+        "startx": 52.918500,
+        "starty": -47.521543
+      }},
       "encoding": {
         "text": {"field": "text", "type": "nominal"},
         "color": {"value": "#d1d4ce"},
-        "size": {"value": 14}
+        "size": {"value": 14},
+        "latitude": {"field": "starty", "type": "quantitative"},
+        "longitude": {"field": "startx", "type": "quantitative"}
       }
     },
     {
