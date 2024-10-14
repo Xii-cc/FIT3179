@@ -141,6 +141,7 @@
       "data": {
         "url": "../Dataset/mly_route.csv",
         "format": {"type": "csv"}
+        
       },
       "transform": [
         {"filter": {"param": "toggle_routes_images"}},
